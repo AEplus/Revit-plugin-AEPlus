@@ -67,9 +67,6 @@ namespace MyRevitCommands
                 // workbook.ActiveSheet(@"c:\\temp\\test\" + vs.Name + ".csv");
                 //   newSheet.Name = vs.Name;
                 //   workbook.Save();
-
-
-
             }
 
             workbook.Close(Type.Missing, Type.Missing, Type.Missing);

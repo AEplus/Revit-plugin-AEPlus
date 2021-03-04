@@ -54,18 +54,17 @@ namespace MyRevitCommands
             format.Culture.DateTimeFormat.ShortDatePattern = "dd-mm-yyyy";
             format.Encoding = new UTF8Encoding();
 
-            //Instantiate the Application object.
-            xlApp.Application excelApp = new xlApp.Application();
+            ////Instantiate the Application object.
+            //xlApp.Application excelApp = new xlApp.Application();
 
-            //Open the excel file.
-            workbook = excelApp.Workbooks.Open(@"c:\\temp\\test.xlsx", 0, false, 5, "", "",
-                           false, XlPlatform.xlWindows, "",
-                           true, false, 0, true, false, false);
+            ////Open the excel file.
+            //workbook = excelApp.Workbooks.Open(@"c:\\temp\\test.xlsx", 0, false, 5, "", "",
+            //               false, XlPlatform.xlWindows, "",
+            //               true, false, 0, true, false, false)
 
-            //Declare a Worksheet object.
-            sheets = workbook.Sheets as Sheets;
+            //create a new Excel package
 
-            int i = 0;
+
             foreach (ViewSchedule vs in col)
             {
                 vs.Export(@"c:\\temp\\test", Environment.UserName + vs.Name + ".csv", opt);
@@ -73,14 +72,30 @@ namespace MyRevitCommands
                 //read the CSV file from disk
                 FileInfo file = new FileInfo(@"c:\\temp\\test" + Environment.UserName + vs.Name + ".csv");
 
-                //create a new Excel package
+                var newFile = (@"c:\\temp\\test" + Environment.UserName + vs.Name + ".csv");
+
                 using (ExcelPackage excelPackage = new ExcelPackage())
                 {
                     //create a WorkSheet
-                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet 1");
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add(vs.Name);
 
                     //load the CSV data into cell A1
                     worksheet.Cells["A1"].LoadFromText(file, format);
+
+                    // file name with .xlsx extension  
+                    string p_strPath = @"c:\\temp\\test.xlsx";
+
+                    if (File.Exists(p_strPath))
+                        File.Delete(p_strPath);
+
+                    // Create excel file on physical disk  
+                    FileStream objFileStrm = File.Create(p_strPath);
+                    objFileStrm.Close();
+
+                    // Write content to excel file  
+                    File.WriteAllBytes(p_strPath, excelPackage.GetAsByteArray());
+                    //Close Excel package 
+                    excelPackage.Dispose();
                 }
 
                 //newSheet = (Worksheet)sheets.Add(sheets[i], Type.Missing, Type.Missing, Type.Missing);
@@ -90,18 +105,15 @@ namespace MyRevitCommands
                 //   workbook.Save();
             }
 
-            workbook.SaveAs(@"c:\\temp\\DIKKETEST", ".xlsx");
-            workbook.Close(Type.Missing, Type.Missing, Type.Missing);
+            //workbook.SaveAs(@"c:\\temp\\DIKKETEST", ".xlsx");
+            //workbook.Close(Type.Missing, Type.Missing, Type.Missing);
                 ExcelApp.Quit();
                 Marshal.ReleaseComObject(newSheet);
                 Marshal.ReleaseComObject(sheets);
                 Marshal.ReleaseComObject(workbook);
-                Marshal.ReleaseComObject(excelApp);
-                excelApp = null;
 
                 return r;
            
-            return r;
         }
     } 
 }

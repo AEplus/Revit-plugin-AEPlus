@@ -7,6 +7,10 @@ using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using System.IO;
 using OfficeOpenXml;
+using System.Text;
+using System.Globalization;
+using System.Threading;
+using Microsoft.IO;
 
 namespace MyRevitCommands
 {
@@ -16,7 +20,7 @@ namespace MyRevitCommands
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
 
-            Result r = Result.Failed;
+            Result r = Result.Succeeded;
             xlApp.Application ExcelApp = null;
             xlApp.Workbook workbook = null;
             xlApp.Sheets sheets = null;
@@ -43,6 +47,13 @@ namespace MyRevitCommands
                 FieldDelimiter = ","
             };
 
+            //set the formatting options
+            ExcelTextFormat format = new ExcelTextFormat();
+            format.Delimiter = ';';
+            format.Culture = new CultureInfo(Thread.CurrentThread.CurrentCulture.ToString());
+            format.Culture.DateTimeFormat.ShortDatePattern = "dd-mm-yyyy";
+            format.Encoding = new UTF8Encoding();
+
             //Instantiate the Application object.
             xlApp.Application excelApp = new xlApp.Application();
 
@@ -54,21 +65,32 @@ namespace MyRevitCommands
             //Declare a Worksheet object.
             sheets = workbook.Sheets as Sheets;
 
-            int i = 1;
+            int i = 0;
             foreach (ViewSchedule vs in col)
             {
                 vs.Export(@"c:\\temp\\test", Environment.UserName + vs.Name + ".csv", opt);
 
-                newSheet = (Worksheet)sheets.Add(sheets[i], Type.Missing, Type.Missing, Type.Missing);
+                //read the CSV file from disk
+                FileInfo file = new FileInfo(@"c:\\temp\\test" + Environment.UserName + vs.Name + ".csv");
 
+                //create a new Excel package
+                using (ExcelPackage excelPackage = new ExcelPackage())
+                {
+                    //create a WorkSheet
+                    ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet 1");
 
+                    //load the CSV data into cell A1
+                    worksheet.Cells["A1"].LoadFromText(file, format);
+                }
 
+                //newSheet = (Worksheet)sheets.Add(sheets[i], Type.Missing, Type.Missing, Type.Missing);
 
                 // workbook.ActiveSheet(@"c:\\temp\\test\" + vs.Name + ".csv");
                 //   newSheet.Name = vs.Name;
                 //   workbook.Save();
             }
 
+            workbook.SaveAs(@"c:\\temp\\DIKKETEST", ".xlsx");
             workbook.Close(Type.Missing, Type.Missing, Type.Missing);
                 ExcelApp.Quit();
                 Marshal.ReleaseComObject(newSheet);

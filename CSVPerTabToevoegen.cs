@@ -45,14 +45,18 @@ namespace MyRevitCommands
             {
                     //create a WorkSheet
                     ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(vs.Name);
+
+                    // Searches for schedules containing AE 
                     if (vs.Name.Contains("AE"))
                 {
+                        // Export c:\\temp --> Will be save as
                     vs.Export(@"c:\\temp\", Environment.UserName + vs.Name + ".csv", opt);
                         FileInfo file = new FileInfo(@"c:\\temp\" + Environment.UserName + vs.Name + ".csv");
 
-
+                        // Adds Worksheet as first in the row 
                         ws.Workbook.Worksheets.MoveToStart(vs.Name);
 
+                        // Formating for writing to xlsx
                         var format = new ExcelTextFormat()
                         {   
                           Culture = CultureInfo.InvariantCulture,

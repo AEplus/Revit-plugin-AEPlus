@@ -38,20 +38,20 @@ namespace MyRevitCommands
                 FieldDelimiter = ","
             };
 
-            int i = 1;
+            using (ExcelPackage excelEngine = new ExcelPackage())
+            {
+                
             foreach (ViewSchedule vs in col)
             {
-                using (ExcelPackage excelEngine = new ExcelPackage())
-                {
-                if (vs.Name.Contains("AE"))
+                    //create a WorkSheet
+                    ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(vs.Name);
+                    if (vs.Name.Contains("AE"))
                 {
                     vs.Export(@"c:\\temp\", Environment.UserName + vs.Name + ".csv", opt);
-
                         FileInfo file = new FileInfo(@"c:\\temp\" + Environment.UserName + vs.Name + ".csv");
 
-                        //create a WorkSheet
-                        ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(vs.Name);
-                        int totalsheets = excelEngine.Workbook.Worksheets.Count;
+
+                        ws.Workbook.Worksheets.MoveToStart(vs.Name);
 
                         var format = new ExcelTextFormat()
                         {   
@@ -63,9 +63,8 @@ namespace MyRevitCommands
                         //    // EOL, DataTypes, Encoding, SkipLinesBeginning/End
                         };
                         ws.Cells["A1"].LoadFromText(file, format);
-                        
-                       // excelEngine.Workbook.Worksheets.MoveBefore(i);
 
+                        // excelEngine.Workbook.Worksheets.MoveBefore(i);
                         //the path of the file
                         string filePath = "C:\\temp\\ExcelDemo.xlsx";
 
@@ -73,7 +72,7 @@ namespace MyRevitCommands
                         FileInfo fi = new FileInfo(filePath);
                         excelEngine.SaveAs(fi);
                     }
-                }
+                }  
             }
             return r;
         }

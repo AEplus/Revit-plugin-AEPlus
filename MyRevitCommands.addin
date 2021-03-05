@@ -13,4 +13,15 @@
 		<VendorDescription>AE Plus</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
 	</AddIn>
+
+ <AddIn Type="Application">
+    <Name>ApplicationPlugin</Name>
+    <Assembly>MyRevitCommands.dll</Assembly>
+    <AddInId>
+      1B441A2A-CF87-4081-B7D3-A3DA9A7A9606
+	</AddInId>
+    <FullClassName>MyRevitCommands.ExternalApplication</FullClassName>
+    <VendorId>Sebastiaan Bellinkx</VendorId>
+    <VendorDescription>AE Plus</VendorDescription>
+  </AddIn>
 </RevitAddIns>

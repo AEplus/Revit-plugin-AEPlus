@@ -10,7 +10,7 @@
 		<Text>AE Plus export schedules to 1 excel</Text>
 		<Description>Export schedules into excel ofnie dan, DIT IS DE PLUGIN</Description>
 		<VendorId>Sebastiaan Bellinkx</VendorId>
-		<VendorDescription>AE Plus</VendorDescription>
+		<VendorDescription>AE Plus, Sebastiaan Bellinkx</VendorDescription>
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
 	</AddIn>
 
@@ -22,6 +22,6 @@
 	</AddInId>
     <FullClassName>MyRevitCommands.ExternalApplication</FullClassName>
     <VendorId>Sebastiaan Bellinkx</VendorId>
-    <VendorDescription>AE Plus</VendorDescription>
+    <VendorDescription>AE Plus, Sebastiaan Bellinkx</VendorDescription>
   </AddIn>
 </RevitAddIns>

@@ -4,7 +4,6 @@ using Autodesk.Revit.UI;
 using System;
 using OfficeOpenXml;
 using System.IO;
-using System.Linq;
 using System.Globalization;
 
 namespace MyRevitCommands
@@ -15,7 +14,6 @@ namespace MyRevitCommands
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             System.IO.Directory.CreateDirectory(@"c:\\temp\");
-
             Result r = Result.Succeeded;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 

@@ -25,12 +25,13 @@ namespace MyRevitCommands
 
             // Create button           
             PushButtonData button1 = new PushButtonData("Export schedules" , "Export schedules", path, "MyRevitCommands.CSVPerTabToevoegen");
+            PushButtonData button2 = new PushButtonData("Export E60", "Export E60", path, "E_60Toevoegen.CSV_E60Toevoegen");
 
             // Create a ribbon panel
             RibbonPanel panel = application.CreateRibbonPanel(tabName, "Export Schedules");
 
             panel.AddItem(button1);
-
+            panel.AddItem(button2);
             return Result.Succeeded;
         }
     }

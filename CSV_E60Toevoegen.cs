@@ -6,14 +6,14 @@ using OfficeOpenXml;
 using System.IO;
 using System.Globalization;
 
-namespace MyRevitCommands
+namespace E_60Toevoegen
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
-    public class CSVPerTabToevoegen : IExternalCommand
+    public class CSV_E60Toevoegen : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            System.IO.Directory.CreateDirectory(@"c:\\temp\");
+            System.IO.Directory.CreateDirectory(@"c:\\temp\\E_60");
             Result r = Result.Succeeded;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -36,20 +36,18 @@ namespace MyRevitCommands
                 FieldDelimiter = ","
             };
 
-            using (ExcelPackage excelEngine = new ExcelPackage())
+            using (ExcelPackage excelEngine1 = new ExcelPackage())
             {
-                // Foreach mag hier pas staan want maakt anders per viewschedule een overwrite van het excelpackage
-                // waardoor je geen totaaloverzicht kan krijgen
                 foreach (ViewSchedule vs in col)
                 {
                     //create a WorkSheet
-                    ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(vs.Name);
+                    ExcelWorksheet ws = excelEngine1.Workbook.Worksheets.Add(vs.Name);
                     // Searches for schedules containing AE 
-                    if (vs.Name.Contains("AE"))
+                    if (vs.Name.Contains("AE_E60"))
                     {
                         // Export c:\\temp --> Will be save as
-                        vs.Export(@"c:\\temp\", Environment.UserName + vs.Name + ".csv", opt);
-                        FileInfo file = new FileInfo(@"c:\\temp\" + Environment.UserName + vs.Name + ".csv");
+                        vs.Export(@"c:\\temp\\E_60\", Environment.UserName + vs.Name + ".csv", opt);
+                        FileInfo file = new FileInfo(@"c:\\temp\\E_60\" + Environment.UserName + vs.Name + ".csv");
 
                         // Adds Worksheet as first in the row 
                         ws.Workbook.Worksheets.MoveToStart(vs.Name);
@@ -68,11 +66,11 @@ namespace MyRevitCommands
 
                         // excelEngine.Workbook.Worksheets.MoveBefore(i);
                         // the path of the file
-                        string filePath = "C:\\temp\\ExcelSchedulesTotaal.xlsx";
+                        string filePath = "C:\\temp\\E_60\\Excel_E_60.xlsx";
 
                         // Write the file to the disk
                         FileInfo fi = new FileInfo(filePath);
-                        excelEngine.SaveAs(fi);
+                        excelEngine1.SaveAs(fi);
                     }
                 }
             }

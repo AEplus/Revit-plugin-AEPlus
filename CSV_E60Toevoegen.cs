@@ -36,14 +36,15 @@ namespace E_60Toevoegen
                 FieldDelimiter = ","
             };
 
-            using (ExcelPackage excelEngine1 = new ExcelPackage())
+            // Creates new excelpackage this 
+            using (ExcelPackage excelEngine = new ExcelPackage())
             {
                 foreach (ViewSchedule vs in col)
                 {
                     //create a WorkSheet
-                    ExcelWorksheet ws = excelEngine1.Workbook.Worksheets.Add(vs.Name);
+                    ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(vs.Name);
                     // Searches for schedules containing AE 
-                    if (vs.Name.Contains("AE_E60"))
+                    if (vs.Name.Contains("AE_E60") || vs.Name.Contains("AE_M52"))
                     {
                         // Export c:\\temp --> Will be save as
                         vs.Export(@"c:\\temp\\E_60\", Environment.UserName + vs.Name + ".csv", opt);
@@ -56,11 +57,11 @@ namespace E_60Toevoegen
                         var format = new ExcelTextFormat()
                         {
                             Culture = CultureInfo.InvariantCulture,
-                            //    // Escape character for values containing the Delimiter
-                            //    // ex: "A,Name",1 --> two cells, not three
+                            // Escape character for values containing the Delimiter
+                            // ex: "A,Name",1 --> two cells, not three
                             TextQualifier = '"'
-                            //    // Other properties
-                            //    // EOL, DataTypes, Encoding, SkipLinesBeginning/End
+                            // Other properties
+                            // EOL, DataTypes, Encoding, SkipLinesBeginning/End
                         };
                         ws.Cells["A1"].LoadFromText(file, format);
 
@@ -70,10 +71,11 @@ namespace E_60Toevoegen
 
                         // Write the file to the disk
                         FileInfo fi = new FileInfo(filePath);
-                        excelEngine1.SaveAs(fi);
+                        excelEngine.SaveAs(fi);
                     }
                 }
             }
+            // result succeeded 
             return r;
         }
     }

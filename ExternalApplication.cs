@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Windows.Media.Imaging;
 
 namespace MyRevitCommands
 {
@@ -24,8 +25,11 @@ namespace MyRevitCommands
             application.CreateRibbonTab(tabName);
 
             // Create button           
-            PushButtonData button1 = new PushButtonData("Export schedules" , "Export schedules", path, "MyRevitCommands.CSVPerTabToevoegen");
+            PushButtonData button1 = new PushButtonData("Export schedules", "Export schedules", path, "MyRevitCommands.CSVPerTabToevoegen");
             PushButtonData button2 = new PushButtonData("Export E60", "Export E60", path, "E_60Toevoegen.CSV_E60Toevoegen");
+
+            BitmapImage button1image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
+            button1.LargeImage = button1image;
 
             // Create a ribbon panel
             RibbonPanel panel = application.CreateRibbonPanel(tabName, "Export Schedules");

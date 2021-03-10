@@ -20,9 +20,9 @@ namespace MyRevitCommands
             // MisValue for excel files, unknown values
             object misValue = System.Reflection.Missing.Value;
 
-            //Get UIDocument
+            // Get UIDocument
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
-            //Get Document
+            // Get Document
             Document doc = uidoc.Document;
 
             FilteredElementCollector col = new FilteredElementCollector(doc)
@@ -66,15 +66,16 @@ namespace MyRevitCommands
                         ws.Cells["A1"].LoadFromText(file, format);
 
                         // excelEngine.Workbook.Worksheets.MoveBefore(i);
-                        //the path of the file
+                        // the path of the file
                         string filePath = "C:\\temp\\ExcelSchedulesTotaal.xlsx";
 
-                        //Write the file to the disk
+                        // Write the file to the disk
                         FileInfo fi = new FileInfo(filePath);
                         excelEngine.SaveAs(fi);
 
                         
-                        //Create SaveFileDialog here
+                        // Create SaveFileDialog here
+                        // Future project
                     }
                 }
             }

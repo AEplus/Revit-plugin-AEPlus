@@ -42,11 +42,14 @@ namespace MyRevitCommands
                 // waardoor je geen totaaloverzicht kan krijgen
                 foreach (ViewSchedule vs in col)
                 {
-                    //create a WorkSheet
-                    ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(vs.Name);
+
                     // Searches for schedules containing AE 
                     if (vs.Name.Contains("AE"))
                     {
+                        //create a WorkSheet
+                        ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(vs.Name);
+
+
                         // Export c:\\temp --> Will be save as
                         vs.Export(@"c:\\temp\\totaal\", Environment.UserName + vs.Name + ".csv", opt);
                         FileInfo file = new FileInfo(@"c:\\temp\\totaal\\" + Environment.UserName + vs.Name + ".csv");

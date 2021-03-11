@@ -44,10 +44,10 @@ namespace E_60Toevoegen
 					// Searches for schedules containing AE E60 M52 en M57 ventilatierooster
 					// dit zijn de schedules waarbij het met aantallen is.
 					if (vs.Name.Contains("AE_E60")
-                        || vs.Name.Contains("AE_M52")
-                        || vs.Name.Contains("AE_M57_ Ventilatieroosters")
-                        || vs.Name.Contains("AE_M57_Toestellen VENT")
-                        || vs.Name.Contains("AE_M50_Toestellen HVAC coll"))
+						|| vs.Name.Contains("AE_M52")
+						|| vs.Name.Contains("AE_M57_ Ventilatieroosters")
+						|| vs.Name.Contains("AE_M57_Toestellen VENT")
+						|| vs.Name.Contains("AE_M50_Toestellen HVAC coll"))
 					{
 						//create a WorkSheet
 						ExcelWorksheet ws1 = excelEngine.Workbook.Worksheets.Add(vs.Name);
@@ -68,6 +68,7 @@ namespace E_60Toevoegen
 							// Other properties
 							// EOL, DataTypes, Encoding, SkipLinesBeginning/End
 						};
+						
 						ws1.Cells["A1"].LoadFromText(file, format);
 
 						// excelEngine.Workbook.Worksheets.MoveBefore(i);
@@ -79,10 +80,11 @@ namespace E_60Toevoegen
 						excelEngine.SaveAs(fi);
 					}
 				}
+				
+
 			}
 			// result succeeded 
 			return r;
 		}
 	}
 }
-

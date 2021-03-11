@@ -20,6 +20,9 @@ namespace MyRevitCommands
 			String tabName = "AE Plus";
 			application.CreateRibbonTab(tabName);
 
+			// Create a ribbon panel
+			RibbonPanel panel = application.CreateRibbonPanel(tabName, "Export Schedules");
+
 			// Create button           
 			PushButtonData button1 = new PushButtonData("Export schedules",
                                                "Export schedules",
@@ -33,8 +36,8 @@ namespace MyRevitCommands
 			BitmapImage button1image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
 			button1.LargeImage = button1image;
 
-			// Create a ribbon panel
-			RibbonPanel panel = application.CreateRibbonPanel(tabName, "Export Schedules");
+			BitmapImage button2image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/numbers.ico"));
+			button2.LargeImage = button2image;
 
 			panel.AddItem(button1);
 			panel.AddItem(button2);

@@ -5,6 +5,11 @@ using System;
 using OfficeOpenXml;
 using System.IO;
 using System.Globalization;
+using Excel = Microsoft.Office.Interop.Excel;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace E_60Toevoegen
 {
@@ -78,13 +83,23 @@ namespace E_60Toevoegen
 						// Write the file to the disk
 						FileInfo fi = new FileInfo(filePath);
 						excelEngine.SaveAs(fi);
+
+						// Excel terug uitlezen en kijken naar welke cell er leeg in de eerste kolom
+						// om vervolgens de rij te kopieren. 
+						
+
+
 					}
 				}
-				
-
 			}
 			// result succeeded 
 			return r;
 		}
-	}
+			// Test voor het zoeken van lege eerste cel in een rij. Deze dan vervolgens te verwijderen
+			// Beter is als deze verplaats worden naar een ander workbook
+    }
+
 }
+
+
+

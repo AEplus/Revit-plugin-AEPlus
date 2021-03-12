@@ -10,6 +10,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace E_60Toevoegen
 {
@@ -24,6 +25,7 @@ namespace E_60Toevoegen
 
             // MisValue for excel files, unknown values
             object misValue = System.Reflection.Missing.Value;
+            int j = 0;
 
             // Get UIDocument
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
@@ -83,75 +85,45 @@ namespace E_60Toevoegen
                         // Write the file to the disk
                         FileInfo fi = new FileInfo(filePath);
                         excelEngine.SaveAs(fi);
-
-                        // Excel terug uitlezen en kijken naar welke cell er leeg in de eerste kolom
-                        // om vervolgens de rij te kopieren. 
-                        //Create COM Objects. Create a COM object for everything that is referenced
-                        Excel.Application xlApp = new Excel.Application();
-                        Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\\temp\\E_60\\Excel_E_60.xlsx");
-                        // Excel.Workbook wb2 = xlApp.Workbooks.Open("c:\\temp\\E_60\\Missing.xlsx");
-
-                        foreach (Excel.Worksheet xlworksheet in xlWorkbook.Worksheets)
-                        {
-
-
-
-                        }
-                        //    Microsoft.Office.Interop.Excel.Worksheet x = xlApp.ActiveSheet as Microsoft.Office.Interop.Excel.Worksheet;
-                        //    Excel.Worksheet xlWorksheet = xlWorkbook.Sheets[1];
-                        //    Excel.Range xlRange = xlWorksheet.UsedRange;
-                        //    int totalRows = xlRange.Rows.Count;
-                        //    int totalColumns = xlRange.Columns.Count;
-                        //    int i = 0;
-                        //    for (i = 1; i <= totalRows; i++)
-                        //    {
-                        //        // Conditional Needed to check if column row is blank
-                        //        if (x.Range["A" + i].Value == "")
-                        //        {
-                        //            Excel.Range src = xlWorkbook.Sheets[xlworksheet].Range("A" + i + ":G" + i)
-                        //            (x.Rows[i] as Microsoft.Office.Interop.Excel.Range).Delete();
-
-                        //        }
-                        //        xlWorkbook.Close(true, Type.Missing, Type.Missing);
-                        //        xlApp.Quit();
-                        //    }
-
-
-                        //    string colToCheck = "A:A";
-                        //    string SearchNo = "";
-                        //    Excel.Range resultRange;
-                        //    Excel.Range colRange = xlworksheet.Range[colToCheck];
-                        //    resultRange = colRange.Find(
-                        //                    What: SearchNo,
-                        //                    LookIn: Excel.XlFindLookIn.xlValues,
-                        //                    LookAt: Excel.XlLookAt.xlPart,
-                        //                    SearchOrder: Excel.XlSearchOrder.xlByRows,
-                        //                    SearchDirection: Excel.XlSearchDirection.xlNext
-                        //    );
-                        //    int findrow = resultRange.Row;
-
-
-                        //    Worksheet srcSheet = xlWorkbook.Worksheets[0];
-                        //    Worksheet destSheet = xlWorkbook.Worksheets[1];
-
-
-                        //    //Source range to be copied
-                        //    Excel.Range sourceRange = srcSheet.Cells.CreateRange("A" + i + ":J" + i);
-
-                        //    //Destination range
-                        //    Excel.Range destRange = destSheet.Cells.CreateRange();
-
-                        //    //Copy the source range into destination range
-                        //    destRange.Copy(sourceRange);
-
-                        //    Excel.Workbook.Save(@"c:\\temp\\E_60\\Missing.xlsx");
-                        //}
-
                     }
                 }
-                // result succeeded 
-                return r;
+                excelEngine.Dispose();
+            } 
+            
+
+            // om vervolgens de rij te kopieren. 
+            //Create COM Objects. Create a COM object for everything that is referenced
+            Excel.Application xlApp = new Excel.Application();
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"C:\\temp\\E_60\\Excel_E_60.xlsx");
+            // Excel.Workbook wb2 = xlApp.Workbooks.Open("c:\\temp\\E_60\\Missing.xlsx");
+
+            foreach (Excel.Worksheet xlworksheet in xlWorkbook.Worksheets)
+            {
+                // select worksheet. NOT zero-based!!:
+                Excel._Worksheet excelWorkbookWorksheet = xlWorkbook.Sheets[1];
+                // create a range:
+                Excel.Range usedRange = excelWorkbookWorksheet.UsedRange;
+                // iterate range
+                foreach (Excel.Range range1 in usedRange)
+                {
+                    // check condition:
+                    if (range1.Value2 == "")
+                        j++;
+                    // if match, cut and shift remaining cells up:
+                    range1.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
+                }
+                // save changes (!!):
+                xlWorkbook.Save();
+                // cleanup:
+                if (xlApp != null)
+                {
+                    Process[] pProcess;
+                    pProcess = System.Diagnostics.Process.GetProcessesByName("Excel");
+                    pProcess[0].Kill();
+                }
             }
+            // result succeeded 
+            return r;
         }
     }
 }

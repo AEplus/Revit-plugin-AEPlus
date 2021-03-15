@@ -76,12 +76,11 @@ namespace E_60Toevoegen
                         string normalDocument = "";
 
                         string StringPathFile = @"c:\\temp\\E_60\" + filename + ".csv";
-                        string[] lines = File.ReadAllLines(StringPathFile);
-                        char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
+                        string[] lines = File.ReadAllLines(StringPathFile); 
 
                         foreach (string line in lines)
                         {
-                            if (line.Split(delimiterChars)[1] == "")
+                            if (line.Split(',')[0] == "")
                             {
                                 emptyFirstCellDocument += line + Environment.NewLine;
                                 System.Diagnostics.Debug.WriteLine(emptyFirstCellDocument + Environment.NewLine);

@@ -80,6 +80,7 @@ namespace E_60Toevoegen
 
                         foreach (string line in lines)
                         {
+                            System.Diagnostics.Debug.WriteLine(line + Environment.NewLine);
                             if (line.Split(',')[0] == "")
                             {
                                 emptyFirstCellDocument += line + Environment.NewLine;

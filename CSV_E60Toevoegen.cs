@@ -70,37 +70,32 @@ namespace E_60Toevoegen
                         // Export c:\\temp --> Will be save as
                         string filename = Environment.UserName + vs.Name;
 
-                        vs.Export(@"c:\\temp\\E_60\", filename + ".csv", opt);               
+                        vs.Export(@"c:\\temp\\E_60\", filename + ".csv", opt);
 
                         // Lege eerste kolom eruithalen. Dan zo 1 grote .csv met alle "lege" in en dan nog altijd per .csv per sheet
                         string normalDocument = "";
-                        foreach (string line in File.ReadAllLines(@"c:\\temp\\E_60\" + filename + ".csv"))
-                        {    
-                            if (line.Split(',')[0] == "")
+
+                        string StringPathFile = @"c:\\temp\\E_60\" + filename + ".csv";
+                        string[] lines = File.ReadAllLines(StringPathFile);
+                        char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
+
+                        foreach (string line in lines)
+                        {
+                            if (line.Split(delimiterChars)[1] == "")
                             {
                                 emptyFirstCellDocument += line + Environment.NewLine;
+                                System.Diagnostics.Debug.WriteLine(emptyFirstCellDocument + Environment.NewLine);
                             }
                             else
                             {
                                 normalDocument += line + Environment.NewLine;
+                                System.Diagnostics.Debug.WriteLine(normalDocument + Environment.NewLine);
                             }
                         }
-
-                        File.WriteAllText(@"c:\\temp\\E_60\" + filename + ".csv", normalDocument);
+                        File.WriteAllText(@"c:\\temp\\E_60\" + filename + ".csv", normalDocument.ToString());
                         FileInfo file = new FileInfo(@"c:\\temp\\E_60\" + filename + ".csv");
                         // Adds Worksheet as first in the row 
                         ws1.Workbook.Worksheets.MoveToStart(vs.Name);
-
-                        // Formating for writing to xlsx
-                        //var format = new ExcelTextFormat()
-                        //{
-                        //    Culture = CultureInfo.InvariantCulture,
-                        //    // Escape character for values containing the Delimiter
-                        //    // ex: "A,Name",1 --> two cells, not three
-                        //    TextQualifier = '"'
-                        //    // Other properties
-                        //    // EOL, DataTypes, Encoding, SkipLinesBeginning/End
-                        //};
                         ws1.Cells["A1"].LoadFromText(file, format);
 
                         // the path of the file
@@ -110,9 +105,8 @@ namespace E_60Toevoegen
                         FileInfo fi = new FileInfo(filePath);
                         excelEngine.SaveAs(fi);
                     }
-                }            
-
-                File.WriteAllText(@"c:\\temp\\E_60\Uitzonderingen.csv", emptyFirstCellDocument);
+                }
+                File.WriteAllText(@"c:\\temp\\E_60\Uitzonderingen.csv", emptyFirstCellDocument.ToString());
                 FileInfo fileUitzondering = new FileInfo(@"c:\\temp\\E_60\Uitzonderingen.csv");
                 wbUitzondering.Cells["A1"].LoadFromText(fileUitzondering, format);
 

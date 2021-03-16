@@ -22,6 +22,7 @@ namespace E_60Toevoegen
             System.IO.Directory.CreateDirectory(@"c:\\temp\\E_60");
             Result r = Result.Succeeded;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            string MapPath = @"c:\\temp\\E_60\";
 
             string emptyFirstCellDocument = "";
 
@@ -81,10 +82,10 @@ namespace E_60Toevoegen
                             ExcelWorksheet ws1 = excelEngine.Workbook.Worksheets.Add(xlSheetName);
                             // Export c:\\temp --> Will be save as
                             string filename = Environment.UserName + vs.Name;
-                            vs.Export(@"c:\\temp\\E_60\", filename + ".csv", opt);
+                            vs.Export(MapPath, filename + ".csv", opt);
 
                             string normalDocument = "";
-                            string StringPathFile = @"c:\\temp\\E_60\" + filename + ".csv";
+                            string StringPathFile = MapPath + filename + ".csv";
                             string[] lines = File.ReadAllLines(StringPathFile);
                             char[] delimitChars = { ',' };
                             int i = 1;
@@ -109,8 +110,8 @@ namespace E_60Toevoegen
                             // Gets spacing for each schedule.
                             emptyFirstCellDocument += Environment.NewLine + Environment.NewLine;
 
-                            File.WriteAllText(@"c:\\temp\\E_60\" + filename + ".csv", normalDocument.ToString());
-                            FileInfo file = new FileInfo(@"c:\\temp\\E_60\" + filename + ".csv");
+                            File.WriteAllText(MapPath + filename + ".csv", normalDocument.ToString());
+                            FileInfo file = new FileInfo(MapPath + filename + ".csv");
                             // Adds Worksheet as first in the row 
                             ws1.Workbook.Worksheets.MoveToStart(xlSheetName);
                             ws1.Cells["A1"].LoadFromText(file, format);
@@ -122,8 +123,8 @@ namespace E_60Toevoegen
                             FileInfo fi = new FileInfo(filePath);
                             excelEngine.SaveAs(fi);
 
-                            File.WriteAllText(@"c:\\temp\\E_60\Uitzonderingen.csv", emptyFirstCellDocument);
-                            FileInfo fileUitzondering = new FileInfo(@"c:\\temp\\E_60\Uitzonderingen.csv");
+                            File.WriteAllText(MapPath + "Uitzonderingen.csv", emptyFirstCellDocument);
+                            FileInfo fileUitzondering = new FileInfo(MapPath + "Uitzonderingen.csv");
                             wbUitzondering.Cells["A1"].LoadFromText(fileUitzondering, format);
 
                             string stringPath = "C:\\temp\\E_60\\Uitzonderingen.xlsx";
@@ -131,6 +132,9 @@ namespace E_60Toevoegen
                             // Write the file to the disk
                             FileInfo fileInfoUitzondering = new FileInfo(stringPath);
                             xlPackage.SaveAs(fileInfoUitzondering);
+
+                            File.Delete(MapPath + filename + ".csv");
+                            File.Delete(MapPath + "Uitzonderingen.csv");
                         }
                     }
                     xlPackage.Dispose();

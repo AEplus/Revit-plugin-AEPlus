@@ -16,6 +16,7 @@ namespace E_60Toevoegen
     [TransactionAttribute(TransactionMode.ReadOnly)]
     public class CSV_E60Toevoegen : IExternalCommand
     {
+        string xlSheetName;
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             System.IO.Directory.CreateDirectory(@"c:\\temp\\E_60");
@@ -67,8 +68,17 @@ namespace E_60Toevoegen
                             || vs.Name.Contains("AE_M57_Toestellen VENT")
                             || vs.Name.Contains("AE_M50_Toestellen HVAC coll"))
                         {
+                            if (vs.Name.Length > 30)
+                            {
+                                xlSheetName = vs.Name.Substring(0, 30);
+                            }
+                            else
+                            {
+                                xlSheetName = vs.Name;
+                            }
+
                             //create a WorkSheet
-                            ExcelWorksheet ws1 = excelEngine.Workbook.Worksheets.Add(vs.Name);
+                            ExcelWorksheet ws1 = excelEngine.Workbook.Worksheets.Add(xlSheetName);
                             // Export c:\\temp --> Will be save as
                             string filename = Environment.UserName + vs.Name;
                             vs.Export(@"c:\\temp\\E_60\", filename + ".csv", opt);
@@ -87,17 +97,13 @@ namespace E_60Toevoegen
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                     i++;
                                 }
-
-                                System.Diagnostics.Debug.WriteLine(line);
                                 if (line.Split(delimitChars)[0] == "" || line.Split(delimitChars)[0] == null)
                                 {
                                     emptyFirstCellDocument += line + Environment.NewLine;
-                                    System.Diagnostics.Debug.WriteLine(emptyFirstCellDocument);
                                 }
                                 else
                                 {
                                     normalDocument += line + Environment.NewLine;
-                                    System.Diagnostics.Debug.WriteLine(normalDocument);
                                 }
                             }
                             // Gets spacing for each schedule.
@@ -106,7 +112,7 @@ namespace E_60Toevoegen
                             File.WriteAllText(@"c:\\temp\\E_60\" + filename + ".csv", normalDocument.ToString());
                             FileInfo file = new FileInfo(@"c:\\temp\\E_60\" + filename + ".csv");
                             // Adds Worksheet as first in the row 
-                            ws1.Workbook.Worksheets.MoveToStart(vs.Name);
+                            ws1.Workbook.Worksheets.MoveToStart(xlSheetName);
                             ws1.Cells["A1"].LoadFromText(file, format);
 
                             // the path of the file

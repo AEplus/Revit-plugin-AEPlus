@@ -37,7 +37,7 @@ namespace E_60Toevoegen
             ViewScheduleExportOptions opt = new ViewScheduleExportOptions()
             {
                 TextQualifier = ExportTextQualifier.None,
-                FieldDelimiter = ",",     
+                FieldDelimiter = ",",
             };
 
             // Formating for writing to xlsx
@@ -46,7 +46,7 @@ namespace E_60Toevoegen
                 Culture = CultureInfo.InvariantCulture,
                 // Escape character for values containing the Delimiter
                 // ex: "A,Name",1 --> two cells, not three
-                    TextQualifier = '"'
+                TextQualifier = '"'
                 // Other properties
                 // EOL, DataTypes, Encoding, SkipLinesBeginning/End
             };
@@ -54,70 +54,85 @@ namespace E_60Toevoegen
             // Creates new excelpackage this 
             using (ExcelPackage excelEngine = new ExcelPackage())
             {
-                ExcelWorksheet wbUitzondering = excelEngine.Workbook.Worksheets.Add("Uitzondering");
-                foreach (ViewSchedule vs in col)
+                using (ExcelPackage xlPackage = new ExcelPackage())
                 {
-                    // Searches for schedules containing AE E60 M52 en M57 ventilatierooster
-                    // dit zijn de schedules waarbij het met aantallen is.
-                    if (vs.Name.Contains("AE_E60")
-                        || vs.Name.Contains("AE_M52")
-                        || vs.Name.Contains("AE_M57_ Ventilatieroosters")
-                        || vs.Name.Contains("AE_M57_Toestellen VENT")
-                        || vs.Name.Contains("AE_M50_Toestellen HVAC coll"))
+                    ExcelWorksheet wbUitzondering = xlPackage.Workbook.Worksheets.Add("Uitzondering");
+                    foreach (ViewSchedule vs in col)
                     {
-                        //create a WorkSheet
-                        ExcelWorksheet ws1 = excelEngine.Workbook.Worksheets.Add(vs.Name);
-                        // Export c:\\temp --> Will be save as
-                        string filename = Environment.UserName + vs.Name;
-                        vs.Export(@"c:\\temp\\E_60\", filename + ".csv", opt);
-
-                        string normalDocument = "";
-                        string StringPathFile = @"c:\\temp\\E_60\" + filename + ".csv";
-                        string[] lines = File.ReadAllLines(StringPathFile); 
-                        char[] delimitChars = {','};
-
-                        foreach (string line in lines)
+                        // Searches for schedules containing AE E60 M52 en M57 ventilatierooster
+                        // dit zijn de schedules waarbij het met aantallen is.
+                        if (vs.Name.Contains("AE_E60")
+                            || vs.Name.Contains("AE_M52")
+                            || vs.Name.Contains("AE_M57_ Ventilatieroosters")
+                            || vs.Name.Contains("AE_M57_Toestellen VENT")
+                            || vs.Name.Contains("AE_M50_Toestellen HVAC coll"))
                         {
-                            System.Diagnostics.Debug.WriteLine(line);  
-                            if (line.Split(delimitChars)[0] == "" || line.Split(delimitChars)[0] == null)
+                            //create a WorkSheet
+                            ExcelWorksheet ws1 = excelEngine.Workbook.Worksheets.Add(vs.Name);
+                            // Export c:\\temp --> Will be save as
+                            string filename = Environment.UserName + vs.Name;
+                            vs.Export(@"c:\\temp\\E_60\", filename + ".csv", opt);
+
+                            string normalDocument = "";
+                            string StringPathFile = @"c:\\temp\\E_60\" + filename + ".csv";
+                            string[] lines = File.ReadAllLines(StringPathFile);
+                            char[] delimitChars = { ',' };
+                            int i = 1;
+
+                            foreach (string line in lines)
                             {
-                                emptyFirstCellDocument += line + Environment.NewLine;
-                                System.Diagnostics.Debug.WriteLine(emptyFirstCellDocument);
+                                // Gets first 2 row of each Schedule, name and properties.
+                                if (i < 3)
+                                {
+                                    emptyFirstCellDocument += line + Environment.NewLine;
+                                    i++;
+                                }
+
+                                System.Diagnostics.Debug.WriteLine(line);
+                                if (line.Split(delimitChars)[0] == "" || line.Split(delimitChars)[0] == null)
+                                {
+                                    emptyFirstCellDocument += line + Environment.NewLine;
+                                    System.Diagnostics.Debug.WriteLine(emptyFirstCellDocument);
+                                }
+                                else
+                                {
+                                    normalDocument += line + Environment.NewLine;
+                                    System.Diagnostics.Debug.WriteLine(normalDocument);
+                                }
                             }
-                            else
-                            {
-                               normalDocument += line + Environment.NewLine;
-                               System.Diagnostics.Debug.WriteLine(normalDocument);
-                            }
-                        }            
-                        File.WriteAllText(@"c:\\temp\\E_60\" + filename + ".csv", normalDocument.ToString());
-                        FileInfo file = new FileInfo(@"c:\\temp\\E_60\" + filename + ".csv");
-                        // Adds Worksheet as first in the row 
-                        ws1.Workbook.Worksheets.MoveToStart(vs.Name);
-                        ws1.Cells["A1"].LoadFromText(file, format);
+                            // Gets spacing for each schedule.
+                            emptyFirstCellDocument += Environment.NewLine + Environment.NewLine;
 
-                        // the path of the file
-                        string filePath = "C:\\temp\\E_60\\Excel_E_60.xlsx";
+                            File.WriteAllText(@"c:\\temp\\E_60\" + filename + ".csv", normalDocument.ToString());
+                            FileInfo file = new FileInfo(@"c:\\temp\\E_60\" + filename + ".csv");
+                            // Adds Worksheet as first in the row 
+                            ws1.Workbook.Worksheets.MoveToStart(vs.Name);
+                            ws1.Cells["A1"].LoadFromText(file, format);
 
-                        // Write the file to the disk
-                        FileInfo fi = new FileInfo(filePath);
-                        excelEngine.SaveAs(fi);
+                            // the path of the file
+                            string filePath = "C:\\temp\\E_60\\Excel_E_60.xlsx";
 
-                        System.Diagnostics.Debug.WriteLine("Empty first cell: " + emptyFirstCellDocument);
+                            // Write the file to the disk
+                            FileInfo fi = new FileInfo(filePath);
+                            excelEngine.SaveAs(fi);
 
-                        File.WriteAllText(@"c:\\temp\\E_60\Uitzonderingen.csv", emptyFirstCellDocument);
-                        FileInfo fileUitzondering = new FileInfo(@"c:\\temp\\E_60\Uitzonderingen.csv");
-                        //wbUitzondering.Cells["A1"].LoadFromText(fileUitzondering, format);
 
-                        //string stringPath = "C:\\temp\\E_60\\Uitzonderingen.xlsx";
+                            File.WriteAllText(@"c:\\temp\\E_60\Uitzonderingen.csv", emptyFirstCellDocument);
+                            FileInfo fileUitzondering = new FileInfo(@"c:\\temp\\E_60\Uitzonderingen.csv");
+                            wbUitzondering.Cells["A1"].LoadFromText(fileUitzondering, format);
 
-                        //// Write the file to the disk
-                        //FileInfo fileInfoUitzondering = new FileInfo(stringPath);
-                        //excelEngine.SaveAs(fileInfoUitzondering);
+                            string stringPath = "C:\\temp\\E_60\\Uitzonderingen.xlsx";
+
+                            // Write the file to the disk
+                            FileInfo fileInfoUitzondering = new FileInfo(stringPath);
+                            xlPackage.SaveAs(fileInfoUitzondering);
+                        }
                     }
+                    xlPackage.Dispose();
                 }
                 excelEngine.Dispose();
             }
+
             return r;
         }
     }

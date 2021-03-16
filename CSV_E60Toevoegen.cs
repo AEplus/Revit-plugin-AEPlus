@@ -1,15 +1,10 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using System;
 using OfficeOpenXml;
-using System.IO;
+using System;
 using System.Globalization;
-using CsvHelper;
-using Excel = Microsoft.Office.Interop.Excel;
-using System.Linq;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 
 namespace E_60Toevoegen
 {
@@ -101,8 +96,7 @@ namespace E_60Toevoegen
 
                                 // Looks for first value if this is null or blank "" 
                                 if (line.Split(delimitChars)[0] == ""
-                                    || line.Split(delimitChars)[0] == null
-                                    || line.Split(delimitChars)[0].Contains(','))
+                                    || line.Split(delimitChars)[0] == null)
                                 {
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                 }

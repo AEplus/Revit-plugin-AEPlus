@@ -17,7 +17,7 @@ namespace MyRevitCommands
             System.IO.Directory.CreateDirectory(@"c:\\temp\\totaal");
             Result r = Result.Succeeded;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-           
+            string MapPath = @"c:\\temp\\totaal\";
 
             // MisValue for excel files, unknown values
             object misValue = System.Reflection.Missing.Value;
@@ -42,7 +42,9 @@ namespace MyRevitCommands
                 // Foreach mag hier pas staan want maakt anders per viewschedule een overwrite van het excelpackage
                 // waardoor je geen totaaloverzicht kan krijgen
                 foreach (ViewSchedule vs in col)
-                {  
+                {
+                    string fileName = Environment.UserName + vs.Name;
+
                     // Searches for schedules containing AE 
                     if (vs.Name.Contains("AE"))
                     {
@@ -55,13 +57,13 @@ namespace MyRevitCommands
                         {
                             xlSheetName = vs.Name;
                         }
-                            
+
                         //create a WorkSheet
                         ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(xlSheetName);
 
                         // Export c:\\temp --> Will be save as
-                        vs.Export(@"c:\\temp\\totaal\", Environment.UserName + vs.Name + ".csv", opt);
-                        FileInfo file = new FileInfo(@"c:\\temp\\totaal\\" + Environment.UserName + vs.Name + ".csv");
+                        vs.Export(MapPath, fileName + ".csv", opt);
+                        FileInfo file = new FileInfo(MapPath + fileName + ".csv");
 
                         // Adds Worksheet as first in the row 
                         ws.Workbook.Worksheets.MoveToStart(xlSheetName);
@@ -80,11 +82,13 @@ namespace MyRevitCommands
 
                         // excelEngine.Workbook.Worksheets.MoveBefore(i);
                         // the path of the file
-                        string filePath = "C:\\temp\\totaal\\ExcelSchedulesTotaal.xlsx";
+                        string filePath = MapPath + "ExcelSchedulesTotaal.xlsx";
 
                         // Write the file to the disk
                         FileInfo fi = new FileInfo(filePath);
                         excelEngine.SaveAs(fi);
+
+                        File.Delete(MapPath + fileName + ".csv");
                     }
                 }
             }

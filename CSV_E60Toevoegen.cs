@@ -98,7 +98,11 @@ namespace E_60Toevoegen
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                     i++;
                                 }
-                                if (line.Split(delimitChars)[0] == "" || line.Split(delimitChars)[0] == null)
+
+                                // Looks for first value if this is null or blank "" 
+                                if (line.Split(delimitChars)[0] == ""
+                                    || line.Split(delimitChars)[0] == null
+                                    || line.Split(delimitChars)[0].Contains(','))
                                 {
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                 }

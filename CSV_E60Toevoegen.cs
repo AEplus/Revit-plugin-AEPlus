@@ -116,7 +116,6 @@ namespace E_60Toevoegen
                             FileInfo fi = new FileInfo(filePath);
                             excelEngine.SaveAs(fi);
 
-
                             File.WriteAllText(@"c:\\temp\\E_60\Uitzonderingen.csv", emptyFirstCellDocument);
                             FileInfo fileUitzondering = new FileInfo(@"c:\\temp\\E_60\Uitzonderingen.csv");
                             wbUitzondering.Cells["A1"].LoadFromText(fileUitzondering, format);
@@ -132,7 +131,6 @@ namespace E_60Toevoegen
                 }
                 excelEngine.Dispose();
             }
-
             return r;
         }
     }

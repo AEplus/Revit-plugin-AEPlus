@@ -33,14 +33,24 @@ namespace MyRevitCommands
                                                path,
                                                "E_60Toevoegen.CSV_E60Toevoegen");
 
+            PushButtonData button3 = new PushButtonData("Export leidingen",
+                                                        "Export leidingen lengte",
+                                                        path,
+                                                        "ExportLeidingen.LeidingenExport");
+
             BitmapImage button1image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
             button1.LargeImage = button1image;
 
             BitmapImage button2image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/numbers.ico"));
             button2.LargeImage = button2image;
 
+            BitmapImage button3image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/pipe.ico"));
+            button3.LargeImage = button3image;
+
+
             panel.AddItem(button1);
             panel.AddItem(button2);
+            panel.AddItem(button3);
             return Result.Succeeded;
         }
     }

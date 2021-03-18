@@ -9,16 +9,16 @@ using System.IO;
 namespace MyRevitCommands
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
-    public class LeidingenExport : IExternalCommand
+    public class ExportLeidingen : IExternalCommand
     {
-        
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             string xlSheetName;
-            System.IO.Directory.CreateDirectory(@"c:\\temp\\E_60");
+            string MapPath = @"c:\\temp\\Leidingen\";
+            System.IO.Directory.CreateDirectory(MapPath);
             Result r = Result.Succeeded;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            string MapPath = @"c:\\temp\\E_60\";
+
 
             string emptyFirstCellDocument = "";
             string TotalDocument = "";
@@ -62,10 +62,10 @@ namespace MyRevitCommands
                         // Searches for schedules containing AE E60 M52 en M57 ventilatierooster
                         // dit zijn de schedules waarbij het met aantallen is.
                         if (vs.Name.Contains("AE_M50")
-                            || vs.Name.Contains("AE+_M52")
-                            || vs.Name.Contains("AE_M57_ Ventilatieroosters")
-                            || vs.Name.Contains("AE_M57_Toestellen VENT")
-                            || vs.Name.Contains("AE_M50_Toestellen HVAC coll"))
+                            || vs.Name.Contains("AE" + "kanaal"))
+                        //|| vs.Name.Contains("AE_M57_ Ventilatieroosters")
+                        //|| vs.Name.Contains("AE_M57_Toestellen VENT")
+                        //|| vs.Name.Contains("AE_M50_Toestellen HVAC coll"))
                         {
                             if (vs.Name.Length > 30)
                             {
@@ -119,17 +119,16 @@ namespace MyRevitCommands
                             ws1.Workbook.Worksheets.MoveToStart(xlSheetName);
                             ws1.Cells["A1"].LoadFromText(file, format);
                             // the path of the file
-                            string filePath = "C:\\temp\\E_60\\Excel_E_60.xlsx";
+                            string filePath = "C:\\temp\\Leidingen\\Excel_Leidingen.xlsx";
                             // Write the file to the disk
                             FileInfo fi = new FileInfo(filePath);
                             excelEngine.SaveAs(fi);
 
 
-
                             File.WriteAllText(MapPath + "Uitzonderingen.csv", emptyFirstCellDocument);
                             FileInfo fileUitzondering = new FileInfo(MapPath + "Uitzonderingen.csv");
                             wbUitzondering.Cells["A1"].LoadFromText(fileUitzondering, format);
-                            string stringPath = "C:\\temp\\E_60\\Overzicht.xlsx";
+                            string stringPath = "C:\\temp\\Leidingen\\Overzicht.xlsx";
 
                             File.WriteAllText(MapPath + "TotaalIngevuld.csv", TotalDocument);
                             FileInfo fileTotaalIngevuld = new FileInfo(MapPath + "TotaalIngevuld.csv");
@@ -142,7 +141,7 @@ namespace MyRevitCommands
 
                             File.Delete(MapPath + filename + ".csv");
                             File.Delete(MapPath + "Uitzonderingen.csv");
-                        }       
+                        }
                         //FileInfo fileIngevuld = new FileInfo(stringpath);
                         //xlPackage.SaveAs(fileIngevuld);
                     }

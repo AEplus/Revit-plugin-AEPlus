@@ -14,7 +14,7 @@ namespace MyRevitCommands
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             string xlSheetName;
-            string MapPath = @"c:\\temp\\Leidingen\";
+            string MapPath = @"Z:\\O - Dossiers\\O - Bim\\stage sebastiaan\\temp\";
             System.IO.Directory.CreateDirectory(MapPath);
             Result r = Result.Succeeded;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -119,7 +119,7 @@ namespace MyRevitCommands
                             ws1.Workbook.Worksheets.MoveToStart(xlSheetName);
                             ws1.Cells["A1"].LoadFromText(file, format);
                             // the path of the file
-                            string filePath = "C:\\temp\\Leidingen\\Excel_Leidingen.xlsx";
+                            string filePath = "Z:\\O - Dossiers\\O - Bim\\stage sebastiaan\\temp\\Excel_Leidingen.xlsx";
                             // Write the file to the disk
                             FileInfo fi = new FileInfo(filePath);
                             excelEngine.SaveAs(fi);
@@ -128,7 +128,7 @@ namespace MyRevitCommands
                             File.WriteAllText(MapPath + "Uitzonderingen.csv", emptyFirstCellDocument);
                             FileInfo fileUitzondering = new FileInfo(MapPath + "Uitzonderingen.csv");
                             wbUitzondering.Cells["A1"].LoadFromText(fileUitzondering, format);
-                            string stringPath = "C:\\temp\\Leidingen\\Overzicht.xlsx";
+                            string stringPath = "Z:\\O - Dossiers\\O - Bim\\stage sebastiaan\\temp\\Overzicht.xlsx";
 
                             File.WriteAllText(MapPath + "TotaalIngevuld.csv", TotalDocument);
                             FileInfo fileTotaalIngevuld = new FileInfo(MapPath + "TotaalIngevuld.csv");

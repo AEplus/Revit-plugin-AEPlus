@@ -36,7 +36,7 @@ namespace MyRevitCommands
             PushButtonData button3 = new PushButtonData("Export leidingen",
                                                         "Export leidingen lengte",
                                                         path,
-                                                        "ExportLeidingen.LeidingenExport");
+                                                        "MyRevitCommands.ExportLeidingen");
 
             BitmapImage button1image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
             button1.LargeImage = button1image;

@@ -6,12 +6,11 @@ using System;
 using System.Globalization;
 using System.IO;
 
-namespace MyRevitCommands
+namespace E_60Toevoegen
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
-    public class LeidingenExport : IExternalCommand
+    public class CSV_E60Toevoegen : IExternalCommand
     {
-        
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             string xlSheetName;

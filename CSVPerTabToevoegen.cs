@@ -11,7 +11,6 @@ namespace MyRevitCommands
     [TransactionAttribute(TransactionMode.ReadOnly)]
     public class CSVPerTabToevoegen : IExternalCommand
     {
-       
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             string xlSheetName;

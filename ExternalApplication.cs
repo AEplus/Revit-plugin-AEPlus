@@ -21,10 +21,13 @@ namespace MyRevitCommands
             application.CreateRibbonTab(tabName);
 
             // Create a ribbon panel
-            RibbonPanel panel = application.CreateRibbonPanel(tabName, "Export Schedules");
+            RibbonPanel panelTot = application.CreateRibbonPanel(tabName, "Totaal");
+            RibbonPanel panelHvac = application.CreateRibbonPanel(tabName, "Export HVAC");
+            RibbonPanel panelSan = application.CreateRibbonPanel(tabName, "Export SAN");
+            RibbonPanel panelElek = application.CreateRibbonPanel(tabName, "Export elektriciteit");
 
             // Create button           
-            PushButtonData button1 = new PushButtonData("Export schedules",
+            PushButtonData buttonTot = new PushButtonData("Export schedules",
                                                "Export schedules",
                                                path,
                                                "MyRevitCommands.CSVPerTabToevoegen");
@@ -39,7 +42,7 @@ namespace MyRevitCommands
                                                         "MyRevitCommands.ExportLeidingen");
 
             BitmapImage button1image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
-            button1.LargeImage = button1image;
+            buttonTot.LargeImage = button1image;
 
             BitmapImage button2image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/numbers.ico"));
             button2.LargeImage = button2image;
@@ -48,9 +51,9 @@ namespace MyRevitCommands
             button3.LargeImage = button3image;
 
 
-            panel.AddItem(button1);
-            panel.AddItem(button2);
-            panel.AddItem(button3);
+            panelTot.AddItem(buttonTot);
+            panelSan.AddItem(button2);
+            panelElek.AddItem(button3);
             return Result.Succeeded;
         }
     }

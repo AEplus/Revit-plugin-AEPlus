@@ -14,7 +14,6 @@
 		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
 	</AddIn>
 
-
  <AddIn Type="Application">
     <Name>ApplicationPlugin</Name>
     <Assembly>MyRevitCommands.dll</Assembly>

@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="CSVPerTabToevoegen.cs" />
     <Compile Include="CSV_E60Toevoegen.cs" />
+    <Compile Include="GenericToevoegen.cs" />
     <Compile Include="LeidingenExport.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

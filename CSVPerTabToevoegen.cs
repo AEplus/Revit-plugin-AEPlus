@@ -31,7 +31,7 @@ namespace MyRevitCommands
             .OfClass(typeof(ViewSchedule));
 
             // Export Options on how the .txt file will look. Text "" is gone
-            // FieldDelimiter is TAB replaced with ,            
+            // FieldDelimiter is TAB replaced with ,
             ViewScheduleExportOptions opt = new ViewScheduleExportOptions()
             {
                 TextQualifier = ExportTextQualifier.DoubleQuote,
@@ -45,7 +45,7 @@ namespace MyRevitCommands
                 {
                     string fileName = Environment.UserName + vs.Name;
 
-                    // Searches for schedules containing AE 
+                    // Searches for schedules containing AE
                     if (vs.Name.Contains("AE"))
                     {
                         // Checks if name length is more than 31 because Excel sheets can not contain more characters.
@@ -65,7 +65,7 @@ namespace MyRevitCommands
                         vs.Export(MapPath, fileName + ".csv", opt);
                         FileInfo file = new FileInfo(MapPath + fileName + ".csv");
 
-                        // Adds Worksheet as first in the row 
+                        // Adds Worksheet as first in the row
                         ws.Workbook.Worksheets.MoveToStart(xlSheetName);
 
                         // Formating for writing to xlsx
@@ -96,4 +96,3 @@ namespace MyRevitCommands
         }
     }
 }
-

@@ -5,12 +5,13 @@ using System.Windows.Media.Imaging;
 
 namespace MyRevitCommands
 {
-    class ExternalApplication : IExternalApplication
+    internal class ExternalApplication : IExternalApplication
     {
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
         }
+
         public Result OnStartup(UIControlledApplication application)
         {
             string path = Assembly.GetExecutingAssembly().Location;
@@ -26,7 +27,7 @@ namespace MyRevitCommands
             RibbonPanel panelSan = application.CreateRibbonPanel(tabName, "Export SAN");
             RibbonPanel panelElek = application.CreateRibbonPanel(tabName, "Export elektriciteit");
 
-            // Create button           
+            // Create button
             PushButtonData buttonTot = new PushButtonData("Export schedules",
                                                "Export schedules",
                                                path,
@@ -34,7 +35,7 @@ namespace MyRevitCommands
             PushButtonData button2 = new PushButtonData("(vs.Name.Contains(AE_E60) (AE_M52) (AE_M57_ Ventilatieroosters)",
                                                "Export met aantallen",
                                                path,
-                                               "E_60Toevoegen.CSV_E60Toevoegen");
+                                               "MyRevitCommands.CSV_E60Toevoegen");
 
             PushButtonData button3 = new PushButtonData("Export leidingen",
                                                         "Export leidingen lengte",
@@ -49,7 +50,6 @@ namespace MyRevitCommands
 
             BitmapImage button3image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/pipe.ico"));
             button3.LargeImage = button3image;
-
 
             panelTot.AddItem(buttonTot);
             panelSan.AddItem(button2);

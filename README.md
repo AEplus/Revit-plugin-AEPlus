@@ -22,3 +22,5 @@ These are the files which need to exported to an excel.
 For this setup we choose to split up each export from the start. There are 3 large bill of quantities for each project. Electricity, HVAC and plumbing. For importing each of these we need to split it up again, Geo-IT does not handle exceptions well so everything is arranged in schedules which count, dimensions and length. Creating these in panels and adding the right buttons to them will be added in the ExternalApplication. 
 
 Each export has "2 modes" an overview with every Geo-IT link filled in and every schedule is a worksheet. The other export method gives everything filled in 1 worksheet and that workbook has another worksheet with everything blank to know what is not added.
+
+For each problem solved a new one arises. The program has been added in to a function which makes it easier in the future to edit everything. 

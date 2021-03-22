@@ -24,3 +24,6 @@ For this setup we choose to split up each export from the start. There are 3 lar
 Each export has "2 modes" an overview with every Geo-IT link filled in and every schedule is a worksheet. The other export method gives everything filled in 1 worksheet and that workbook has another worksheet with everything blank to know what is not added.
 
 For each problem solved a new one arises. The program has been added in to a function which makes it easier in the future to edit everything. 
+
+For filtering the right Geo-IT Link some shared parameters do not work and have to be changed in calculated values. 
+With the cable trays this is the case if(and(Width = 60 mm, Height = 60 mm), "70.56.11.11", "") this is the solution for making a working Geo-IT Link. 

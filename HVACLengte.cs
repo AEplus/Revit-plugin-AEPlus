@@ -18,7 +18,9 @@ namespace MyRevitCommands
             revitSchedules.Add("AE_M56");
             revitSchedules.Add("ventilatierooster");
 
-            return new GenericToevoegen().GenericExecute(commandData, ref message, elements, @"c:\\temp\\HVAC\\Lengte\", revitSchedules);
+            string fileName = this.GetType().Name;
+
+            return new GenericToevoegen().GenericExecute(commandData, ref message, elements, @"c:\\temp\\HVAC\", revitSchedules, fileName);
         }
     }
 }

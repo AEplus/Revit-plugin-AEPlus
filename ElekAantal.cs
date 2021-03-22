@@ -17,7 +17,9 @@ namespace MyRevitCommands
             ArrayList revitSchedules = new ArrayList();
             revitSchedules.Add("AE_E60");
 
-            return new GenericToevoegen().GenericExecute(commandData, ref message, elements, @"c:\\temp\\Elektriciteit\\Aantal\", revitSchedules);
+            string fileName = this.GetType().Name;
+
+            return new GenericToevoegen().GenericExecute(commandData, ref message, elements, @"c:\\temp\\Elektriciteit\", revitSchedules, fileName);
         }
     }
 }

@@ -22,6 +22,6 @@
 	</AddInId>
     <FullClassName>MyRevitCommands.ExternalApplication</FullClassName>
     <VendorId>Sebastiaan Bellinkx</VendorId>
-    <VendorDescription>AE Plus, Sebastiaan Bellinkx, contacteren op: info@sebastiaanbellinkx.com voor vragen.</VendorDescription>
+    <VendorDescription>AE Plus, Foutmelding, check de error die voorkomt.</VendorDescription>
   </AddIn>
 </RevitAddIns>

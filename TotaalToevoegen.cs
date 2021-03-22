@@ -9,7 +9,7 @@ using System.IO;
 namespace MyRevitCommands
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
-    public class CSVPerTabToevoegen : IExternalCommand
+    public class TotaalToevoegen : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

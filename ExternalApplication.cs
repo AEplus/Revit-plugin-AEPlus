@@ -11,7 +11,6 @@ namespace MyRevitCommands
         {
             return Result.Succeeded;
         }
-
         public Result OnStartup(UIControlledApplication application)
         {
             string path = Assembly.GetExecutingAssembly().Location;
@@ -24,36 +23,67 @@ namespace MyRevitCommands
             // Create a ribbon panel
             RibbonPanel panelTot = application.CreateRibbonPanel(tabName, "Totaal");
             RibbonPanel panelHvac = application.CreateRibbonPanel(tabName, "Export HVAC");
-            RibbonPanel panelSan = application.CreateRibbonPanel(tabName, "Export SAN");
+            RibbonPanel panelSan = application.CreateRibbonPanel(tabName, "Export Sanitair");
             RibbonPanel panelElek = application.CreateRibbonPanel(tabName, "Export elektriciteit");
 
             // Create button
             PushButtonData buttonTot = new PushButtonData("Export schedules",
-                                               "Export schedules",
-                                               path,
-                                               "MyRevitCommands.CSVPerTabToevoegen");
-            PushButtonData button2 = new PushButtonData("(vs.Name.Contains(AE_E60) (AE_M52) (AE_M57_ Ventilatieroosters)",
-                                               "Export met aantallen",
-                                               path,
-                                               "MyRevitCommands.CSV_E60Toevoegen");
+                                                          "Export schedules",
+                                                          path,
+                                                          "MyRevitCommands.TotaalToevoegen");
 
-            PushButtonData button3 = new PushButtonData("Export leidingen",
-                                                        "Export leidingen lengte",
+            PushButtonData buttonElekAantal = new PushButtonData("elek aantal",
+                                                        "Export met aantallen",
                                                         path,
-                                                        "MyRevitCommands.ExportLeidingen");
+                                                        "MyRevitCommands.ElekAantal");
+
+
+            PushButtonData buttonElekLengte = new PushButtonData("Elek lengte",
+                                                        "Export met lengte",
+                                                        path,
+                                                        "MyRevitCommands.ElekLengte");
+
+
+            PushButtonData buttonHVACAantal = new PushButtonData("HVAC Aantal",
+                                                                 "Export met aantallen",
+                                                                 path,
+                                                                 "MyRevitCommands.HVACAantal");
+
+            PushButtonData buttonHVACLengte = new PushButtonData("Export HVAC lengte",
+                                                                 "Export met lengte",
+                                                                 path,
+                                                                 "MyRevitCommands.HVACLengte");
+
+            PushButtonData buttonSanAantal = new PushButtonData("Export Sanitair Aantallen",
+                                                                "Export met aantallen",
+                                                                path,
+                                                                "MyRevitCommands.SanAantal");
+
+            PushButtonData buttonSanLengte = new PushButtonData("Export Sanitair lengte",
+                                                                "Export met lengte",
+                                                                path,
+                                                                "MyRevitCommands.SanLengte");
 
             BitmapImage button1image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
             buttonTot.LargeImage = button1image;
 
             BitmapImage button2image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/numbers.ico"));
-            button2.LargeImage = button2image;
+            buttonElekAantal.LargeImage = button2image;
 
             BitmapImage button3image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/pipe.ico"));
-            button3.LargeImage = button3image;
+            buttonSanLengte.LargeImage = button3image;
 
             panelTot.AddItem(buttonTot);
-            panelSan.AddItem(button2);
-            panelElek.AddItem(button3);
+
+            panelElek.AddItem(buttonElekAantal);
+            panelElek.AddItem(buttonElekLengte);
+
+            panelHvac.AddItem(buttonHVACAantal);
+            panelHvac.AddItem(buttonHVACLengte);
+
+            panelSan.AddItem(buttonSanAantal);
+            panelSan.AddItem(buttonSanLengte);
+
             return Result.Succeeded;
         }
     }

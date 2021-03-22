@@ -16,6 +16,7 @@ namespace MyRevitCommands
     {
         /*
             ...
+
             MapPath example value:  @"c:\\temp\\E_60\" 
          */
         public Result GenericExecute(ExternalCommandData commandData, ref string message, ElementSet elements, string MapPath, ArrayList revitSchedules)
@@ -128,7 +129,7 @@ namespace MyRevitCommands
                             // EPPlus method for reading a .csv to excel in the format as written above here line +-40
                             ws1.Cells["A1"].LoadFromText(file, format);
                             // the path of the file
-                            string filePath = MapPath + "Excel_E_60.xlsx";
+                            string filePath = MapPath + this.GetType().Name;
                             // Write the file to the disk
                             FileInfo fi = new FileInfo(filePath);
                             excelEngine.SaveAs(fi);
@@ -152,6 +153,7 @@ namespace MyRevitCommands
                             // For each loop this deletes the .csv files to keep the folder clean
                             File.Delete(MapPath + filename + ".csv");
                             File.Delete(MapPath + "Uitzonderingen.csv");
+                            File.Delete(MapPath + "TotaalIngevuld.csv");
                         }
                         //FileInfo fileIngevuld = new FileInfo(stringpath);
                         //xlPackage.SaveAs(fileIngevuld);
@@ -162,7 +164,6 @@ namespace MyRevitCommands
             }
             return r;
         }
-
         private Boolean checkValues(string name, ArrayList toCheck)
         {
             Boolean current = false;

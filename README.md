@@ -26,4 +26,6 @@ Each export has "2 modes" an overview with every Geo-IT link filled in and every
 For each problem solved a new one arises. The program has been added in to a function which makes it easier in the future to edit everything. 
 
 For filtering the right Geo-IT Link some shared parameters do not work and have to be changed in calculated values. 
-With the cable trays this is the case if(and(Width = 60 mm, Height = 60 mm), "70.56.11.11", "") this is the solution for making a working Geo-IT Link. 
+With the cable trays this is the case if(and(Width = 60 mm, Height = 60 mm), "70.56.11.11", "") this is the solution for making a working Geo-IT Link.
+
+This occurs with every type that involves, sizing (diameter, DN size, ...) for this problem you will need to add a different parameter for calculating the Geo-IT number because with types that count the "Geo-IT" parameter is text like "40.62.51.11". This is a text parameter which in schedules you can not get a calculated value with. Having a different parameter is needed like 6051 this is the beginning of the Geo-IT number for a certain pipe and with the calculation to the diameter you can get the full Geo-IT Number out of this. 

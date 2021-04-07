@@ -3,6 +3,8 @@ using System;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
+// Dit is het algemeen exporteren van alle schedules
+// V
 namespace MyRevitCommands
 {
     internal class ExternalApplication : IExternalApplication

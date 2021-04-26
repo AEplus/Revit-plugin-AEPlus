@@ -57,7 +57,6 @@ namespace MyRevitCommands
                         {
                             xlSheetName = vs.Name;
                         }
-
                         //create a WorkSheet
                         ExcelWorksheet ws = excelEngine.Workbook.Worksheets.Add(xlSheetName);
 

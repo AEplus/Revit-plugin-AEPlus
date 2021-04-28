@@ -19,6 +19,7 @@ namespace MyRevitCommands
             string strImageFolder = System.IO.Path.GetDirectoryName(path) + @"\Resources\";
 
             // Create a custom ribbon tab
+
             String tabName = "AE Plus";
             application.CreateRibbonTab(tabName);
 

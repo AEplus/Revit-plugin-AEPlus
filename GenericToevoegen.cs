@@ -36,7 +36,7 @@ namespace MyRevitCommands
             // FieldDelimiter is TAB replaced with ,
             var opt = new ViewScheduleExportOptions
             {
-                TextQualifier = ExportTextQualifier.None,
+                TextQualifier = ExportTextQualifier.DoubleQuote,
                 FieldDelimiter = ","
             };
 

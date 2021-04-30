@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.Windows.Media.Imaging;
 using Autodesk.Revit.UI;
 
 // Dit is het algemeen exporteren van alle schedules
@@ -68,18 +66,6 @@ namespace MyRevitCommands
                 "Export met lengte",
                 path,
                 "MyRevitCommands.SanLengte");
-
-            var button1image =
-                new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
-            buttonTot.LargeImage = button1image;
-
-            var button2image =
-                new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/numbers.ico"));
-            buttonElekAantal.LargeImage = button2image;
-
-            var button3image =
-                new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/pipe.ico"));
-            buttonSanLengte.LargeImage = button3image;
 
             panelTot.AddItem(buttonTot);
 

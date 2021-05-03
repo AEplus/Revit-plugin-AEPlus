@@ -1,22 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
-	<AddIn Type="Command">
-		<Name>MyRevitCommands</Name>
-		<Assembly>MyRevitCommands.dll</Assembly>
-		<AddInId>
-			B01F5C01-C074-4249-8634-6BB623BF83BC
-		</AddInId>
-		<FullClassName>MyRevitCommands.CSVPerTabToevoegen</FullClassName>
-		<Text>AE Plus export schedules to 1 excel</Text>
-		<Description>Export schedules into excel ofnie dan, DIT IS DE PLUGIN</Description>
-		<VendorId>Sebastiaan Bellinkx</VendorId>
-		<VendorDescription>AE Plus, Sebastiaan Bellinkx</VendorDescription>
-		<VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
-	</AddIn>
-
  <AddIn Type="Application">
     <Name>ApplicationPlugin</Name>
-    <Assembly>MyRevitCommands.dll</Assembly>
+    <Assembly>.\MyRevitCommands\MyRevitCommands.dll</Assembly>
     <AddInId>
       1B441A2A-CF87-4081-B7D3-A3DA9A7A9606
 	</AddInId>

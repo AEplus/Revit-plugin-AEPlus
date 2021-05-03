@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
- <AddIn Type="Application">
-    <Name>ApplicationPlugin</Name>
-    <Assembly>.\MyRevitCommands\MyRevitCommands.dll</Assembly>
-    <AddInId>
-      1B441A2A-CF87-4081-B7D3-A3DA9A7A9606
-	</AddInId>
-    <FullClassName>MyRevitCommands.ExternalApplication</FullClassName>
-    <VendorId>Sebastiaan</VendorId>
-    <VendorDescription>AE Plus, Foutmelding, check de error die voorkomt.</VendorDescription>
-  </AddIn>
+	<AddIn Type="Application">
+		<Name>ApplicationPlugin</Name>
+		<Assembly>.\MyRevitCommands\MyRevitCommands.dll</Assembly>
+		<AddInId>
+			1B441A2A-CF87-4081-B7D3-A3DA9A7A9606
+		</AddInId>
+		<FullClassName>MyRevitCommands.ExternalApplication</FullClassName>
+		<VendorId>Sebastiaan</VendorId>
+		<VendorDescription>AE Plus. </VendorDescription>
+	</AddIn>
 </RevitAddIns>

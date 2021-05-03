@@ -15,11 +15,11 @@ namespace MyRevitCommands
 
         public Result OnStartup(UIControlledApplication application)
         {
+            // Gets the assembly directory 
             var path = Assembly.GetExecutingAssembly().Location;
             var strImageFolder = Path.GetDirectoryName(path) + @"\Resources\";
 
             // Create a custom ribbon tab
-
             var tabName = "AE Plus";
             application.CreateRibbonTab(tabName);
 
@@ -67,6 +67,7 @@ namespace MyRevitCommands
                 path,
                 "MyRevitCommands.SanLengte");
 
+            // Adding items to the panel
             panelTot.AddItem(buttonTot);
 
             panelElek.AddItem(buttonElekAantal);

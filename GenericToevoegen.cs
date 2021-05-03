@@ -76,6 +76,7 @@ namespace MyRevitCommands
                             var filename = Environment.UserName + vs.Name;
                             vs.Export(MapPath, filename + ".csv", opt);
 
+                            // Blank doc, get file name, reading through full .csv fle with delimitChars "," 
                             var normalDocument = "";
                             var StringPathFile = MapPath + filename + ".csv";
                             var lines = File.ReadAllLines(StringPathFile);
@@ -86,8 +87,10 @@ namespace MyRevitCommands
                             {
                                 // Gets first 2 row of each Schedule, name and properties.
                                 // This is done for visibility and making the excel easier to read
+                                // Means, header and first row, count, family, type ... 
                                 if (i < 3)
                                 {
+                                    // Every line in the doc gets added as a newLine.
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                     i++;
                                 }
@@ -145,16 +148,17 @@ namespace MyRevitCommands
                         }
                     //FileInfo fileIngevuld = new FileInfo(stringpath);
                     //xlPackage.SaveAs(fileIngevuld);
-
+                    // Close excelpackage
                     xlPackage.Dispose();
                 }
-
+                // Close excelpackage
                 excelEngine.Dispose();
             }
 
             return r;
         }
 
+        // Extra function which checks the value of the other .cs files and so exports the given values.
         private bool checkValues(string name, ArrayList toCheck)
         {
             var current = false;

@@ -7,6 +7,12 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using OfficeOpenXml;
 
+// Baby version of generic toevoegen 
+// This programs is the first item in the ribbon and adds every schedule containing the name "AE"
+// You should watch if the schedules names are not equal under 31chars. This gives an error.
+// It writes to c:\temp which it creates, writing and reading is possible on the server
+// For securiy purposes this is only done locally so nobody can tinker with this on the server
+
 namespace MyRevitCommands
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
@@ -84,11 +90,11 @@ namespace MyRevitCommands
                         var fi = new FileInfo(filePath);
                         excelEngine.SaveAs(fi);
 
+                        // Deletes every .csv file so only the .xslx stays in the folder.
                         File.Delete(MapPath + fileName + ".csv");
                     }
                 }
             }
-
             return r;
         }
     }

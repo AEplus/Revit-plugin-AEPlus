@@ -7,7 +7,7 @@
       1B441A2A-CF87-4081-B7D3-A3DA9A7A9606
 	</AddInId>
     <FullClassName>MyRevitCommands.ExternalApplication</FullClassName>
-    <VendorId>Sebastiaan Bellinkx</VendorId>
+    <VendorId>Sebastiaan</VendorId>
     <VendorDescription>AE Plus, Foutmelding, check de error die voorkomt.</VendorDescription>
   </AddIn>
 </RevitAddIns>

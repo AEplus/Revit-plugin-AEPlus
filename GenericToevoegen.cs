@@ -36,7 +36,7 @@ namespace MyRevitCommands
             // FieldDelimiter is TAB replaced with ,
             var opt = new ViewScheduleExportOptions
             {
-                TextQualifier = ExportTextQualifier.DoubleQuote,
+                TextQualifier = ExportTextQualifier.None,
                 FieldDelimiter = ","
             };
 
@@ -47,6 +47,7 @@ namespace MyRevitCommands
                 // Escape character for values containing the Delimiter
                 // ex: "A,Name",1 --> two cells, not three
                 TextQualifier = '"'
+
                 // Other properties
                 // EOL, DataTypes, Encoding, SkipLinesBeginning/End
             };
@@ -87,7 +88,7 @@ namespace MyRevitCommands
                             {
                                 // Gets first 2 row of each Schedule, name and properties.
                                 // This is done for visibility and making the excel easier to read
-                                // Means, header and first row, count, family, type ... 
+                                // Means, header and first row, count, family, type, ... 
                                 if (i < 3)
                                 {
                                     // Every line in the doc gets added as a newLine.
@@ -146,11 +147,13 @@ namespace MyRevitCommands
                             File.Delete(MapPath + "Uitzonderingen.csv");
                             File.Delete(MapPath + "TotaalIngevuld.csv");
                         }
+
                     //FileInfo fileIngevuld = new FileInfo(stringpath);
                     //xlPackage.SaveAs(fileIngevuld);
                     // Close excelpackage
                     xlPackage.Dispose();
                 }
+
                 // Close excelpackage
                 excelEngine.Dispose();
             }

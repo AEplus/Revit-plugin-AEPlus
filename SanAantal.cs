@@ -16,7 +16,7 @@ namespace MyRevitCommands
                 var revitSchedules = new ArrayList();
                 // revitSchedules.Add("AE_M56");
                 // revitSchedules.Add("ventilatierooster");
-                revitSchedules.Add("ZAE");
+                revitSchedules.Add("SAN A");
 
                 var fileName = GetType().Name;
 

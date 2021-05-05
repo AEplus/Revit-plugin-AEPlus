@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using Autodesk.Revit.DB;
@@ -11,9 +12,9 @@ namespace MyRevitCommands
     internal class GenericToevoegen
     {
         /*
-            ...
-        MapPath example value:  @"c:\\temp\\E_60\" 
-         */
+...
+MapPath example value:  @"c:\\temp\\E_60\" 
+*/
         public Result GenericExecute(ExternalCommandData commandData, ref string message, ElementSet elements,
             string MapPath, ArrayList revitSchedules, string fileName)
         {
@@ -46,7 +47,11 @@ namespace MyRevitCommands
                 Culture = CultureInfo.InvariantCulture,
                 // Escape character for values containing the Delimiter
                 // ex: "A,Name",1 --> two cells, not three
-                TextQualifier = '"'
+                //
+                //
+                // TextQualifier = '"',
+                Delimiter = ','
+
                 // Other properties
                 // EOL, DataTypes, Encoding, SkipLinesBeginning/End
             };
@@ -88,6 +93,7 @@ namespace MyRevitCommands
 
                             foreach (var line in lines)
                             {
+                                Debug.WriteLine(line);
                                 // Gets first 2 row of each Schedule, name and properties.
                                 // This is done for visibility and making the excel easier to read
                                 // Means, header and first row, count, family, type, ... 
@@ -101,7 +107,12 @@ namespace MyRevitCommands
                                 // Looks for first value if this is null or blank ""
                                 // Geo-IT number has to be first for this line
                                 // Checks if it is blank or not
-                                if (line.Split(delimitChars)[0] == "" || line.Split(delimitChars)[0] == null)
+                                // || line.Split(delimitChars)[0] == null
+
+                                var firstline = line.Split(delimitChars)[0];
+                                Debug.WriteLine(firstline);
+
+                                if (firstline == "")
                                     // Empty first cell .csv line
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                 else

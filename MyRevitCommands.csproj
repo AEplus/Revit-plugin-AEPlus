@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ElekLengte.cs" />
+    <Compile Include="Testing.cs" />
     <Compile Include="TotaalToevoegen.cs" />
     <Compile Include="ElekAantal.cs" />
     <Compile Include="GenericToevoegen.cs" />

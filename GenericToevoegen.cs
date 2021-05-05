@@ -47,10 +47,11 @@ namespace MyRevitCommands
                 // Escape character for values containing the Delimiter
                 // ex: "A,Name",1 --> two cells, not three
                 TextQualifier = '"'
-
                 // Other properties
                 // EOL, DataTypes, Encoding, SkipLinesBeginning/End
             };
+
+
             // Creates new excelpackage this
             using (var excelEngine = new ExcelPackage())
             {
@@ -58,6 +59,7 @@ namespace MyRevitCommands
                 {
                     var wbUitzondering = xlPackage.Workbook.Worksheets.Add("Uitzondering");
                     var wbAllesIngevuld = xlPackage.Workbook.Worksheets.Add("AllesIngevuld");
+
                     foreach (ViewSchedule vs in col)
                         // Searches for schedules containing AE E60 M52 en M57 ventilatierooster
                         // dit zijn de schedules waarbij het met aantallen is.
@@ -99,8 +101,7 @@ namespace MyRevitCommands
                                 // Looks for first value if this is null or blank ""
                                 // Geo-IT number has to be first for this line
                                 // Checks if it is blank or not
-                                if (line.Split(delimitChars)[0] == ""
-                                    || line.Split(delimitChars)[0] == null)
+                                if (line.Split(delimitChars)[0] == "" || line.Split(delimitChars)[0] == null)
                                     // Empty first cell .csv line
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                 else

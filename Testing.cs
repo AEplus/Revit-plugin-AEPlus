@@ -6,17 +6,17 @@ using Autodesk.Revit.UI;
 namespace MyRevitCommands
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
-    public class ElekAantal : IExternalCommand
+    public class Testing : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var revitSchedules = new ArrayList();
-            revitSchedules.Add("AE_E60");
+            revitSchedules.Add("ZAE_M50_Leidingen-Zaag isolatie SAN L");
 
             var fileName = GetType().Name;
 
-            return new GenericToevoegen().GenericExecute(commandData, ref message, elements,
-                @"c:\\temp\\Elektriciteit\", revitSchedules, fileName);
+            return new GenericToevoegen().GenericExecute(commandData, ref message, elements, @"c:\\temp\\Sanitair\",
+                revitSchedules, fileName);
         }
     }
 }

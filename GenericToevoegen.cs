@@ -46,10 +46,16 @@ namespace MyRevitCommands
                 Culture = CultureInfo.InvariantCulture,
                 // Escape character for values containing the Delimiter
                 // ex: "A,Name",1 --> two cells, not three
-                TextQualifier = '"'
+                //
+                //
+                // TextQualifier = '"',
+                Delimiter = ','
+
                 // Other properties
                 // EOL, DataTypes, Encoding, SkipLinesBeginning/End
             };
+
+
             // Creates new excelpackage this
             using (var excelEngine = new ExcelPackage())
             {
@@ -84,10 +90,13 @@ namespace MyRevitCommands
 
                             foreach (var line in lines)
                             {
+                                Debug.WriteLine(line);
                                 // Gets first 2 row of each Schedule, name and properties.
                                 // This is done for visibility and making the excel easier to read
+                                // Means, header and first row, count, family, type, ... 
                                 if (i < 3)
                                 {
+                                    // Every line in the doc gets added as a newLine.
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                     i++;
                                 }

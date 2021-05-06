@@ -1,8 +1,9 @@
-﻿using Autodesk.Revit.UI;
-using System;
+﻿using System.IO;
 using System.Reflection;
-using System.Windows.Media.Imaging;
+using Autodesk.Revit.UI;
 
+// Dit is het algemeen exporteren van alle schedules
+// V
 namespace MyRevitCommands
 {
     internal class ExternalApplication : IExternalApplication
@@ -11,68 +12,66 @@ namespace MyRevitCommands
         {
             return Result.Succeeded;
         }
+
         public Result OnStartup(UIControlledApplication application)
         {
-            string path = Assembly.GetExecutingAssembly().Location;
-            string strImageFolder = System.IO.Path.GetDirectoryName(path) + @"\Resources\";
+            // Gets the assembly directory 
+            var path = Assembly.GetExecutingAssembly().Location;
+            var strImageFolder = Path.GetDirectoryName(path) + @"\Resources\";
 
             // Create a custom ribbon tab
-            String tabName = "AE Plus";
+            var tabName = "AE Plus";
             application.CreateRibbonTab(tabName);
 
             // Create a ribbon panel
-            RibbonPanel panelTot = application.CreateRibbonPanel(tabName, "Totaal");
-            RibbonPanel panelHvac = application.CreateRibbonPanel(tabName, "Export HVAC");
-            RibbonPanel panelSan = application.CreateRibbonPanel(tabName, "Export Sanitair");
-            RibbonPanel panelElek = application.CreateRibbonPanel(tabName, "Export elektriciteit");
+            var panelTot = application.CreateRibbonPanel(tabName, "Totaal");
+            var panelHvac = application.CreateRibbonPanel(tabName, "Export HVAC");
+            var panelSan = application.CreateRibbonPanel(tabName, "Export Sanitair");
+            var panelElek = application.CreateRibbonPanel(tabName, "Export elektriciteit");
+
+            var panelTest = application.CreateRibbonPanel(tabName, "testing");
 
             // Create button
-            PushButtonData buttonTot = new PushButtonData("Export schedules",
-                                                          "Export schedules",
-                                                          path,
-                                                          "MyRevitCommands.TotaalToevoegen");
+            var buttonTot = new PushButtonData("Export schedules",
+                "Export schedules",
+                path,
+                "MyRevitCommands.TotaalToevoegen");
 
-            PushButtonData buttonElekAantal = new PushButtonData("elek aantal",
-                                                        "Export met aantallen",
-                                                        path,
-                                                        "MyRevitCommands.ElekAantal");
-
-
-            PushButtonData buttonElekLengte = new PushButtonData("Elek lengte",
-                                                        "Export met lengte",
-                                                        path,
-                                                        "MyRevitCommands.ElekLengte");
+            var buttonElekAantal = new PushButtonData("elek aantal",
+                "Export met aantallen",
+                path,
+                "MyRevitCommands.ElekAantal");
 
 
-            PushButtonData buttonHVACAantal = new PushButtonData("HVAC Aantal",
-                                                                 "Export met aantallen",
-                                                                 path,
-                                                                 "MyRevitCommands.HVACAantal");
+            var buttonElekLengte = new PushButtonData("Elek lengte",
+                "Export met lengte",
+                path,
+                "MyRevitCommands.ElekLengte");
 
-            PushButtonData buttonHVACLengte = new PushButtonData("Export HVAC lengte",
-                                                                 "Export met lengte",
-                                                                 path,
-                                                                 "MyRevitCommands.HVACLengte");
 
-            PushButtonData buttonSanAantal = new PushButtonData("Export Sanitair Aantallen",
-                                                                "Export met aantallen",
-                                                                path,
-                                                                "MyRevitCommands.SanAantal");
+            var buttonHVACAantal = new PushButtonData("HVAC Aantal",
+                "Export met aantallen",
+                path,
+                "MyRevitCommands.HVACAantal");
 
-            PushButtonData buttonSanLengte = new PushButtonData("Export Sanitair lengte",
-                                                                "Export met lengte",
-                                                                path,
-                                                                "MyRevitCommands.SanLengte");
+            var buttonHVACLengte = new PushButtonData("Export HVAC lengte",
+                "Export met lengte",
+                path,
+                "MyRevitCommands.HVACLengte");
 
-            BitmapImage button1image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/favicon.ico"));
-            buttonTot.LargeImage = button1image;
+            var buttonSanAantal = new PushButtonData("Export Sanitair Aantallen",
+                "Export met aantallen",
+                path,
+                "MyRevitCommands.SanAantal");
 
-            BitmapImage button2image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/numbers.ico"));
-            buttonElekAantal.LargeImage = button2image;
+            var buttonSanLengte = new PushButtonData("Export Sanitair lengte",
+                "Export met lengte",
+                path,
+                "MyRevitCommands.SanLengte");
 
-            BitmapImage button3image = new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/pipe.ico"));
-            buttonSanLengte.LargeImage = button3image;
+            var buttonTesting = new PushButtonData("testing", "testing", path, "MyRevitCommands.Testing");
 
+            // Adding items to the panel
             panelTot.AddItem(buttonTot);
 
             panelElek.AddItem(buttonElekAantal);
@@ -83,6 +82,9 @@ namespace MyRevitCommands
 
             panelSan.AddItem(buttonSanAantal);
             panelSan.AddItem(buttonSanLengte);
+
+            panelTest.AddItem(buttonTesting);
+
 
             return Result.Succeeded;
         }

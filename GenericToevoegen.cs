@@ -21,7 +21,7 @@ namespace MyRevitCommands
             string xlSheetName;
             Directory.CreateDirectory(MapPath);
             var r = Result.Succeeded;
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var emptyFirstCellDocument = "";
             var TotalDocument = "";
 

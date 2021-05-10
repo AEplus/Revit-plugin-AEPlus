@@ -11,16 +11,13 @@ namespace MyRevitCommands
 {
     internal class GenericToevoegen
     {
-        /*
-            ...
-        MapPath example value:  @"c:\\temp\\E_60\" 
-         */
         public Result GenericExecute(ExternalCommandData commandData, ref string message, ElementSet elements,
             string MapPath, ArrayList revitSchedules, string fileName)
         {
             string xlSheetName;
             Directory.CreateDirectory(MapPath);
             var r = Result.Succeeded;
+            // Is pas nodig vanaf EPPlus v5. Hier gebruiken we v4 nog die ondere een andere license valt maar depreciated is 
             // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var emptyFirstCellDocument = "";
             var TotalDocument = "";
@@ -56,8 +53,7 @@ namespace MyRevitCommands
                 // EOL, DataTypes, Encoding, SkipLinesBeginning/End
             };
 
-
-            // Creates new excelpackage this
+            // Creates new excelpackage 
             using (var excelEngine = new ExcelPackage())
             {
                 using (var xlPackage = new ExcelPackage())
@@ -81,8 +77,10 @@ namespace MyRevitCommands
                             var ws1 = excelEngine.Workbook.Worksheets.Add(xlSheetName);
                             // Export c:\\temp --> Will be save as
                             var filename = Environment.UserName + vs.Name;
+                            // Exports .csv file to mappath
                             vs.Export(MapPath, filename + ".csv", opt);
 
+                            // Document settings, start empty, sets pathfile, reads all lines, delimiter, start with 1 
                             var normalDocument = "";
                             var StringPathFile = MapPath + filename + ".csv";
                             var lines = File.ReadAllLines(StringPathFile);
@@ -155,6 +153,7 @@ namespace MyRevitCommands
                     //FileInfo fileIngevuld = new FileInfo(stringpath);
                     //xlPackage.SaveAs(fileIngevuld);
 
+                    // Closes both excel packages 
                     xlPackage.Dispose();
                 }
 
@@ -164,6 +163,8 @@ namespace MyRevitCommands
             return r;
         }
 
+        // Checks values with have been added through the buttons
+        // 
         private bool checkValues(string name, ArrayList toCheck)
         {
             var current = false;

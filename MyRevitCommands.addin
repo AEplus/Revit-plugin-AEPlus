@@ -3,7 +3,7 @@
 	<AddIn Type="Application">
 		<Name>ApplicationPlugin</Name>
 		
-		<Assembly>MyRevitCommands.dll</Assembly>
+		<Assembly>.\MyRevitCommands\MyRevitCommands.dll</Assembly>
 		<AddInId>
 			1B441A2A-CF87-4081-B7D3-A3DA9A7A9606
 		</AddInId>

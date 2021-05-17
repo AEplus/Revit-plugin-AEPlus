@@ -11,17 +11,14 @@ namespace MyRevitCommands
 {
     internal class GenericToevoegen
     {
-        /*
-...
-MapPath example value:  @"c:\\temp\\E_60\" 
-*/
         public Result GenericExecute(ExternalCommandData commandData, ref string message, ElementSet elements,
             string MapPath, ArrayList revitSchedules, string fileName)
         {
             string xlSheetName;
             Directory.CreateDirectory(MapPath);
             var r = Result.Succeeded;
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            // Is pas nodig vanaf EPPlus v5. Hier gebruiken we v4 nog die ondere een andere license valt maar depreciated is 
+            // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var emptyFirstCellDocument = "";
             var TotalDocument = "";
 
@@ -56,15 +53,13 @@ MapPath example value:  @"c:\\temp\\E_60\"
                 // EOL, DataTypes, Encoding, SkipLinesBeginning/End
             };
 
-
-            // Creates new excelpackage this
+            // Creates new excelpackage 
             using (var excelEngine = new ExcelPackage())
             {
                 using (var xlPackage = new ExcelPackage())
                 {
                     var wbUitzondering = xlPackage.Workbook.Worksheets.Add("Uitzondering");
                     var wbAllesIngevuld = xlPackage.Workbook.Worksheets.Add("AllesIngevuld");
-
                     foreach (ViewSchedule vs in col)
                         // Searches for schedules containing AE E60 M52 en M57 ventilatierooster
                         // dit zijn de schedules waarbij het met aantallen is.
@@ -82,9 +77,10 @@ MapPath example value:  @"c:\\temp\\E_60\"
                             var ws1 = excelEngine.Workbook.Worksheets.Add(xlSheetName);
                             // Export c:\\temp --> Will be save as
                             var filename = Environment.UserName + vs.Name;
+                            // Exports .csv file to mappath
                             vs.Export(MapPath, filename + ".csv", opt);
 
-                            // Blank doc, get file name, reading through full .csv fle with delimitChars "," 
+                            // Document settings, start empty, sets pathfile, reads all lines, delimiter, start with 1 
                             var normalDocument = "";
                             var StringPathFile = MapPath + filename + ".csv";
                             var lines = File.ReadAllLines(StringPathFile);
@@ -107,12 +103,7 @@ MapPath example value:  @"c:\\temp\\E_60\"
                                 // Looks for first value if this is null or blank ""
                                 // Geo-IT number has to be first for this line
                                 // Checks if it is blank or not
-                                // || line.Split(delimitChars)[0] == null
-
-                                var firstline = line.Split(delimitChars)[0];
-                                Debug.WriteLine(firstline);
-
-                                if (firstline == "")
+                                if (line.Split(delimitChars)[0] == "")
                                     // Empty first cell .csv line
                                     emptyFirstCellDocument += line + Environment.NewLine;
                                 else
@@ -123,7 +114,7 @@ MapPath example value:  @"c:\\temp\\E_60\"
 
                             // Gets spacing for each schedule.
                             // Increasing visibility for reading the excel.
-                            emptyFirstCellDocument += Environment.NewLine + Environment.NewLine;
+                            emptyFirstCellDocument += Environment.NewLine;
                             TotalDocument += normalDocument + Environment.NewLine;
 
                             File.WriteAllText(MapPath + filename + ".csv", normalDocument);
@@ -159,21 +150,21 @@ MapPath example value:  @"c:\\temp\\E_60\"
                             File.Delete(MapPath + "Uitzonderingen.csv");
                             File.Delete(MapPath + "TotaalIngevuld.csv");
                         }
-
                     //FileInfo fileIngevuld = new FileInfo(stringpath);
                     //xlPackage.SaveAs(fileIngevuld);
-                    // Close excelpackage
+
+                    // Closes both excel packages 
                     xlPackage.Dispose();
                 }
 
-                // Close excelpackage
                 excelEngine.Dispose();
             }
 
             return r;
         }
 
-        // Extra function which checks the value of the other .cs files and so exports the given values.
+        // Checks values with have been added through the buttons
+        // 
         private bool checkValues(string name, ArrayList toCheck)
         {
             var current = false;

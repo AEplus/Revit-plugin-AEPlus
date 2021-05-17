@@ -23,7 +23,7 @@ namespace MyRevitCommands
             string xlSheetName;
             Directory.CreateDirectory(@"c:\\temp\\totaal");
             var r = Result.Succeeded;
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var MapPath = @"c:\\temp\\totaal\";
 
             // MisValue for excel files, unknown values
@@ -95,6 +95,7 @@ namespace MyRevitCommands
                     }
                 }
             }
+
             return r;
         }
     }

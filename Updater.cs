@@ -34,7 +34,14 @@ namespace MyRevitCommands
                 var parameter = e.LookupParameter("AE Opmeting");
                 // var Opmeting = parameter.AsInteger();
 
-                if (parameter == null) parameter.Set(0);
+                if (null != parameter)
+                {
+                    if (string.IsNullOrEmpty(parameter.AsValueString()))
+                    {
+                        parameter.Set(0);
+                
+    }
+                }
             }
 
             return Result.Succeeded;

@@ -60,15 +60,25 @@ namespace MyRevitCommands
                     foreach (var e in collector)
                     {
                         var parameter = e.LookupParameter("AE Opmeting");
-
                         if (parameter.AsDouble() == 0) parameter.Set(0);
+
+                        var number1 = e.LookupParameter("L1");
+                        if (number1.AsDouble() == 0) number1.Set(0);
+                        var L2 = e.LookupParameter("L2");
+                        var L3 = e.LookupParameter("L3");
+                        var L4 = e.LookupParameter("L4");
+
+
+                        if (L2.AsInteger() == 0) L2.Set(0);
+                        if (L3.AsInteger() == 0) L3.Set(0);
+                        if (L4.AsInteger() == 0) L4.Set(0);
+
                         // var P = doc.GetElement(e.Id).LookupParameter("AE Opmeting");
                         // if (P != null || P.AsValueString() != "0" || P.AsValueString() != null) P.Set("0");
                     }
                 }
 
                 transaction.Commit();
-
 
                 // Above now auto commits. 
                 //// Ask the end user whether the changes are to be committed or not

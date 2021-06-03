@@ -35,13 +35,8 @@ namespace MyRevitCommands
                 // var Opmeting = parameter.AsInteger();
 
                 if (null != parameter)
-                {
                     if (string.IsNullOrEmpty(parameter.AsValueString()))
-                    {
                         parameter.Set(0);
-                
-    }
-                }
             }
 
             return Result.Succeeded;

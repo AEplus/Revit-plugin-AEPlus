@@ -30,6 +30,8 @@ namespace MyRevitCommands
             var panelElek = application.CreateRibbonPanel(tabName, "Export elektriciteit");
             var panelUpdate = application.CreateRibbonPanel(tabName, "Updater");
 
+            var panelTest = application.CreateRibbonPanel(tabName, "test");
+
             // Create button
             var buttonTot = new PushButtonData("Export schedules",
                 "Export schedules",
@@ -71,6 +73,9 @@ namespace MyRevitCommands
             var buttonUpdater = new PushButtonData("Updater", "Updater", path, "MyRevitCommands.Updater");
 
 
+            var buttonTest = new PushButtonData("Test", "test", path, "MyRevitCommands.Test");
+
+
             // Adding items to the panel
             panelTot.AddItem(buttonTot);
 
@@ -84,6 +89,8 @@ namespace MyRevitCommands
             panelSan.AddItem(buttonSanLengte);
 
             panelUpdate.AddItem(buttonUpdater);
+
+            panelTest.AddItem(buttonTest);
 
             return Result.Succeeded;
         }

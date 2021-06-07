@@ -64,7 +64,7 @@ namespace MyRevitCommands
                         // Searches for schedules containing AE E60 M52 en M57 ventilatierooster
                         // dit zijn de schedules waarbij het met aantallen is.
 
-                        if (checkValues(vs.Name, revitSchedules))
+                        if (CheckValues(vs.Name, revitSchedules))
                         {
                             // Checks if vs.name is not longer than 30 characters because Excels crashes.
                             // Keep in mind for the vs.names that they have to be different under 30 characters
@@ -165,7 +165,7 @@ namespace MyRevitCommands
 
         // Checks values with have been added through the buttons
         // 
-        private bool checkValues(string name, ArrayList toCheck)
+        private bool CheckValues(string name, ArrayList toCheck)
         {
             var current = false;
             foreach (string item in toCheck)

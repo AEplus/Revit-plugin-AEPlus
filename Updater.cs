@@ -55,8 +55,6 @@ namespace MyRevitCommands
                         = new FilteredElementCollector(doc)
                             .WherePasses(f);
 
-                    ElementId id = null;
-
                     foreach (var e in collector)
                     {
                         var parameter = e.LookupParameter("AE Opmeting");

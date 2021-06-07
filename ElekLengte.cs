@@ -10,8 +10,10 @@ namespace MyRevitCommands
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var revitSchedules = new ArrayList();
-            revitSchedules.Add("AE_Kabelgoten");
+            var revitSchedules = new ArrayList
+            {
+                "AE_Kabelgoten"
+            };
 
             var fileName = GetType().Name;
 

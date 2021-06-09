@@ -12,8 +12,7 @@ namespace MyRevitCommands
         {
             var revitSchedules = new ArrayList
             {
-                "AE_M56",
-                "ventilatierooster"
+                "HVAC A"
             };
 
             var fileName = GetType().Name;

@@ -83,6 +83,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImportParameter.cs" />
     <Compile Include="ExportParameter.cs" />
     <Compile Include="ElekLengte.cs" />
     <Compile Include="Test.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="SanAantal.cs" />
     <Compile Include="SanLengte.cs" />
     <Compile Include="Updater.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

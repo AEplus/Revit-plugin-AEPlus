@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
+using System.IO;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using OfficeOpenXml;
 using WinForms = System.Windows.Forms;
 using X = Microsoft.Office.Interop.Excel;
 
@@ -17,45 +18,49 @@ namespace MyRevitCommands
             var app = uiApp.Application;
             var doc = uiApp.ActiveUIDocument.Document;
 
-            var families
-                = new FilteredElementCollector(doc)
-                    .OfClass(typeof(FamilySymbol));
-
-            //var excel = new X.Application();
-
-            //excel.Visible = true;
-            //var workbook = excel.Workbooks.Add(Missing.Value);
-            //X.Worksheet worksheet;
-
-            //worksheet = excel.ActiveSheet as X.Worksheet;
-            //worksheet.Name = "GeoIT Link";
-            //worksheet.Cells[1, 1] = "FamilySymbol";
-            //worksheet.Cells[1, 2] = "Family";
-            //worksheet.Cells[1, 3] = "GeoIT Link";
-
-            var row = 2;
-
-            var test = fs. wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-
-            foreach (FamilySymbol fs in families)
+            var guid = Guid.Empty;
+            try
             {
-                var geoit = fs.Symbol.LookupParameter("AE GeoIT Link");
-                var typeName = fs.Name;
-                var familyName = fs.FamilyName;
+                var file = app.OpenSharedParameterFile();
+                var group = file.Groups.get_Item("00. General");
+                var definition = group.Definitions.get_Item("AE GeoIT Link");
+                var externalDefinition = definition as ExternalDefinition;
+                guid = externalDefinition.GUID;
+                Console.WriteLine(guid);
+            }
+            catch (Exception)
+            {
+            }
+
+            using (var excelEngine = new ExcelPackage())
+            {
+                var wsParameters = excelEngine.Workbook.Worksheets.Add("Parameters");
+
+                wsParameters.Cells[1, 1].Value = "Family";
+                wsParameters.Cells[1, 2].Value = "FamilySymbol";
+                wsParameters.Cells[1, 3].Value = "GeoIT Value";
+
+                var families
+                    = new FilteredElementCollector(doc)
+                        .OfClass(typeof(FamilySymbol));
+
+                var fs = families.WhereElementIsElementType().ToElements();
+                var rij = 2;
 
 
-                Debug.WriteLine(geoit.ToString() + typeName + familyName + Environment.NewLine);
-                
-                //worksheet.Cells[row, 1] = typeName;
-                //worksheet.Cells[row, 2] = familyName;
+                foreach (FamilySymbol e in fs)
+                {
+                    wsParameters.Cells[rij, 1].Value = e.FamilyName;
+                    wsParameters.Cells[rij, 2].Value = e.Name;
+                    if (e.get_Parameter(guid) != null)
+                        wsParameters.Cells[rij, 3].Value = e.get_Parameter(guid).AsValueString();
+                    else
+                        wsParameters.Cells[rij, 3].Value = "";
 
-                //if (link == null)
-                //    worksheet.Cells[row, 3] = 0;
-                //else
-                //    worksheet.Cells[row, 3] = link;
+                    rij++;
+                }
 
-
-                row++;
+                excelEngine.SaveAs(new FileInfo(@"c:\temp\GeoITParameter.xlsx"));
             }
 
             // workbook.SaveAs(workbook, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value,

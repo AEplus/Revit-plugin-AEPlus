@@ -39,6 +39,7 @@ namespace MyRevitCommands
                 wsParameters.Cells[1, 1].Value = "Family";
                 wsParameters.Cells[1, 2].Value = "FamilySymbol";
                 wsParameters.Cells[1, 3].Value = "GeoIT Value";
+                wsParameters.Cells[1, 4].Value = "Unique ID";
 
                 var families
                     = new FilteredElementCollector(doc)
@@ -46,7 +47,6 @@ namespace MyRevitCommands
 
                 var fs = families.WhereElementIsElementType().ToElements();
                 var rij = 2;
-
 
                 foreach (FamilySymbol e in fs)
                 {
@@ -56,6 +56,7 @@ namespace MyRevitCommands
                         wsParameters.Cells[rij, 3].Value = e.get_Parameter(guid).AsValueString();
                     else
                         wsParameters.Cells[rij, 3].Value = "";
+                    wsParameters.Cells[rij, 4].Value = e.UniqueId;
 
                     rij++;
                 }

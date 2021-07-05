@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -34,37 +35,68 @@ namespace MyRevitCommands
             var dlg = new WinForms.OpenFileDialog();
             dlg.Title = "Select source Excel file from which to update Revit shared parameters";
             dlg.Filter = "Excel spreadsheet files (*.xls;*.xlsx)|*.xls;*.xlsx|All files (*)|*";
-            if (WinForms.DialogResult.OK != dlg.ShowDialog()) return Result.Cancelled;
+            if (WinForms.DialogResult.OK != dlg.ShowDialog()) return Result.Failed;
 
-            var newFile = new FileInfo(dlg.ToString());
 
-            using (var excelEngine = new ExcelPackage(newFile))
+            var filename = new FileInfo(dlg.FileName);
+            var filepath = Path.GetDirectoryName(dlg.FileName);
+
+
+            using (var excelEngine = new ExcelPackage(filename))
             {
                 var workbook = excelEngine.Workbook;
                 var worksheet = excelEngine.Workbook.Worksheets[1];
 
-
                 using (var t = new Transaction(doc))
                 {
-                    t.Start("Shared parameter values invullen");
-                    var rij = 2;
-
-                    while (true)
+                    if (t.Start("Shared parameter values invullen") == TransactionStatus.Started)
                     {
-                        //foreach (symbolId as ElementId In family.GetFamilySymbolIds())
+                        var families
+                            = new FilteredElementCollector(doc)
+                                .OfClass(typeof(FamilySymbol));
+
+                        var fs = families.WhereElementIsElementType().ToElements();
+
+                        foreach (FamilySymbol type in fs)
                         {
-                            //var symbol as FamilySymbol = doc.GetElement(symbolId);
+                            var rij = 2;
+
+                            try
+                            {
+                                var famname = type.FamilyName;
+                                var famsymbol = type.Name;
+                                var excelfamily = worksheet.Cells[rij, 1].Value;
+                                var excelfs = worksheet.Cells[rij, 2].Value;
+                                var gvalue = (double) worksheet.Cells[rij, 3].Value;
+
+
+                                if (Equals(famname, excelfamily))
+                                    if (Equals(famsymbol, excelfs))
+                                    {
+                                        var fspara = type.get_Parameter(guid);
+                                        fspara.Set(gvalue);
+                                        Debug.WriteLine(famname + famsymbol);
+                                        Debug.WriteLine(gvalue);
+                                    }
+
+
+                                Console.WriteLine("Volgende familysymbol");
+                            }
+
+                            catch (Exception exception)
+                            {
+                                Debug.WriteLine(exception);
+                            }
+
+                            rij++;
                         }
 
-                        // if symbol.name.Equals(desiredFamilySymbolName, StringComparison.InvariantCultureIgnoreCase)
-
-
-                        break;
+                        t.Commit();
                     }
                 }
-            }
 
-            return Result.Succeeded;
+                return Result.Succeeded;
+            }
         }
     }
 }

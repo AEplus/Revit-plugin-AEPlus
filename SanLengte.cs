@@ -10,8 +10,7 @@ namespace MyRevitCommands
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var revitSchedules = new ArrayList();
-            revitSchedules.Add("SAN L");
+            var revitSchedules = new ArrayList {"SAN L"};
 
 
             var fileName = GetType().Name;

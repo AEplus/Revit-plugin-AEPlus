@@ -64,9 +64,9 @@ namespace MyRevitCommands
 
                         // Got builtinparameters value through RevitLookUp
                         wsParameters.Cells[row, 1].Value =
-                            type.get_Parameter(BuiltInParameter.ALL_MODEL_FAMILY_NAME).AsValueString();
+                            type.get_Parameter(BuiltInParameter.ALL_MODEL_FAMILY_NAME).AsString();
                         wsParameters.Cells[row, 2].Value =
-                            type.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_NAME).AsValueString();
+                            type.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_NAME).AsString();
                         var number = 0;
 
                         if (e.get_Parameter(guid) != null)

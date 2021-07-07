@@ -62,7 +62,7 @@ namespace MyRevitCommands
                         //    doc.Regenerate();
                         //}
 
-                        // Got builtinparameters value through RevitLookUp
+                        // Got builtinparameters value through RevitLookUp .AsString is necessary to get value instead of DB.Parameter
                         wsParameters.Cells[row, 1].Value =
                             type.get_Parameter(BuiltInParameter.ALL_MODEL_FAMILY_NAME).AsString();
                         wsParameters.Cells[row, 2].Value =
@@ -80,13 +80,11 @@ namespace MyRevitCommands
                             wsParameters.Cells[row, 3].Value = 0;
                         }
 
-
                         row++;
                     }
 
                     t.Commit();
                 }
-
 
                 var fi = "";
 

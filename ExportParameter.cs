@@ -46,28 +46,54 @@ namespace MyRevitCommands
                     = new FilteredElementCollector(doc)
                         .OfClass(typeof(FamilySymbol)).Cast<FamilySymbol>().ToList();
 
-                // var fs = families.WhereElementIsElementType().ToElements();
-                var rij = 2;
+                var row = 2;
+                var cellValue = 0;
 
-                foreach (var e in fs)
+                using (var t = new Transaction(doc))
                 {
-                    wsParameters.Cells[rij, 1].Value = e.FamilyName;
-                    wsParameters.Cells[rij, 2].Value = e.Name;
-                    if (e.get_Parameter(guid) != null)
-                        wsParameters.Cells[rij, 3].Value = e.get_Parameter(guid).AsValueString();
-                    else
-                        wsParameters.Cells[rij, 3].Value = "";
-                    wsParameters.Cells[rij, 4].Value = e.UniqueId;
+                    t.Start("Symbol activate");
 
-                    rij++;
+                    foreach (var e in fs)
+                    {
+                        //if (!e.IsActive)x 
+                        //{
+                        //    e.Activate();
+                        //    doc.Regenerate();
+                        //}
+
+                        wsParameters.Cells[row, 1].Value = e.FamilyName;
+                        wsParameters.Cells[row, 2].Value = e.Name;
+                        var number = 0;
+
+                        if (e.get_Parameter(guid) != null)
+                        {
+                            int.TryParse(e.get_Parameter(guid).AsValueString(), out number);
+                            wsParameters.Cells[row, 3].Value = number;
+                            wsParameters.Cells["C1:C" + wsParameters.Dimension.End.Row].Style.Numberformat.Format = "0";
+                        }
+                        else
+                        {
+                            wsParameters.Cells[row, 3].Value = 0;
+                        }
+
+
+                        row++;
+                    }
+
+                    t.Commit();
                 }
 
-                excelEngine.SaveAs(new FileInfo(@"c:\temp\GeoITParameter.xlsx"));
-            }
 
-            // workbook.SaveAs(workbook, Missing.Value, Missing.Value, Missing.Value, Missing.Value, Missing.Value,
-            //    X.XlSaveAsAccessMode.xlNoChange, Missing.Value, Missing.Value, Missing.Value, Missing.Value,
-            //    Missing.Value);
+                var fi = "";
+
+                var dlg = new WinForms.SaveFileDialog();
+                dlg.InitialDirectory = @"C:\";
+                dlg.Title = "Select directory to save the excel file";
+                dlg.Filter = "Excel spreadsheet files (*.xlsx)|*.xlsx|All files (*)|*";
+                if (dlg.ShowDialog() == WinForms.DialogResult.OK) fi = dlg.FileName;
+
+                excelEngine.SaveAs(new FileInfo(fi));
+            }
 
             return Result.Succeeded;
         }

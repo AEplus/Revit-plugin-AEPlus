@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -42,9 +41,10 @@ namespace MyRevitCommands
                 wsParameters.Cells[1, 3].Value = "GeoIT Value";
                 wsParameters.Cells[1, 4].Value = "Unique ID";
 
-                var fs
-                    = new FilteredElementCollector(doc)
-                        .OfClass(typeof(FamilySymbol)).Cast<FamilySymbol>().ToList();
+                var familyTypeCollector1 =
+                    new FilteredElementCollector(doc);
+                familyTypeCollector1.OfClass(typeof(ElementType));
+                var famTypes = familyTypeCollector1.ToElements();
 
                 var row = 2;
                 var cellValue = 0;
@@ -53,16 +53,20 @@ namespace MyRevitCommands
                 {
                     t.Start("Symbol activate");
 
-                    foreach (var e in fs)
+                    foreach (var e in famTypes)
                     {
+                        var type = e as ElementType;
                         //if (!e.IsActive)x 
                         //{
                         //    e.Activate();
                         //    doc.Regenerate();
                         //}
 
-                        wsParameters.Cells[row, 1].Value = e.FamilyName;
-                        wsParameters.Cells[row, 2].Value = e.Name;
+                        // Got builtinparameters value through RevitLookUp
+                        wsParameters.Cells[row, 1].Value =
+                            type.get_Parameter(BuiltInParameter.ALL_MODEL_FAMILY_NAME).AsValueString();
+                        wsParameters.Cells[row, 2].Value =
+                            type.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_NAME).AsValueString();
                         var number = 0;
 
                         if (e.get_Parameter(guid) != null)

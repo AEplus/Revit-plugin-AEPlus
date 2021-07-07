@@ -69,6 +69,7 @@ namespace MyRevitCommands
                 path,
                 "MyRevitCommands.SanLengte");
 
+
             var buttonUpdater = new PushButtonData("Updater",
                 "Updater",
                 path,
@@ -90,6 +91,7 @@ namespace MyRevitCommands
             //    "MyRevitCommands.Test");
 
 
+
             // Adding items to the panel
             panelTot.AddItem(buttonTot);
 
@@ -103,10 +105,12 @@ namespace MyRevitCommands
             panelSan.AddItem(buttonSanLengte);
 
             panelUpdate.AddItem(buttonUpdater);
+            
             panelUpdate.AddItem(buttonExport);
             panelUpdate.AddItem(buttonImport);
 
             //panelTest.AddItem(buttonTest);
+
 
             return Result.Succeeded;
         }

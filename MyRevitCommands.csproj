@@ -112,7 +112,6 @@
     <Compile Include="SanLengte.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Utils.cs" />
-
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

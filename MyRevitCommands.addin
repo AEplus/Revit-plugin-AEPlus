@@ -4,7 +4,7 @@
 		<Name>ApplicationPlugin</Name>
 		<Assembly>MyRevitCommands.dll</Assembly>
 		<AddInId>
-			1B441A2A-CF87-4081-B7D3-A3DA9A7A9606
+			E6EEB7D0-2E65-4B05-B55F-86762160604E
 		</AddInId>
 		<FullClassName>MyRevitCommands.ExternalApplication</FullClassName>
 		<VendorId>Sebastiaan</VendorId>

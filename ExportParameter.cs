@@ -92,9 +92,18 @@ namespace MyRevitCommands
                 dlg.InitialDirectory = @"C:\";
                 dlg.Title = "Select directory to save the excel file";
                 dlg.Filter = "Excel spreadsheet files (*.xlsx)|*.xlsx|All files (*)|*";
+
                 if (dlg.ShowDialog() == WinForms.DialogResult.OK) fi = dlg.FileName;
 
-                excelEngine.SaveAs(new FileInfo(fi));
+                try
+                {
+                    excelEngine.SaveAs(new FileInfo(fi));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return Result.Cancelled;
+                }
             }
 
             return Result.Succeeded;

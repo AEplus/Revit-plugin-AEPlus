@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -59,7 +58,7 @@ namespace MyRevitCommands
 
         private void checkFamily(int iRowCnt, ElementType type)
         {
-            Debug.WriteLine("BEGIN");
+            // Debug.WriteLine("BEGIN");
             var row = 2;
             var fstype = type;
             string famname = null;
@@ -88,11 +87,7 @@ namespace MyRevitCommands
                         if (fspara != null && fspara.IsReadOnly != true)
                         {
                             fspara.Set(gvalue);
-                            Debug.WriteLine("OK");
-                        }
-                        else
-                        {
-                            Debug.WriteLine("NOT OK");
+                            //Debug.WriteLine("OK");
                         }
 
                         run = false;

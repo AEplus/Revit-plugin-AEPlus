@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -43,13 +43,13 @@ namespace MyRevitCommands
                 {
                     t.Start("started");
 
-                    var fs
-                        = new FilteredElementCollector(doc)
-                            .OfClass(typeof(FamilySymbol)).Cast<FamilySymbol>().ToList();
+                    var familyTypeCollector1 = new FilteredElementCollector(doc);
+                    familyTypeCollector1.OfClass(typeof(ElementType));
+                    var famTypes = familyTypeCollector1.ToElements();
 
-                    foreach (var type in fs)
+                    foreach (var type in famTypes)
 
-                        checkFamily(row, iRowCnt, type);
+                        checkFamily(iRowCnt, (ElementType) type);
 
                     t.Commit();
                     return Result.Succeeded;
@@ -57,19 +57,52 @@ namespace MyRevitCommands
             }
         }
 
-        private void checkFamily(int row, int iRowCnt, FamilySymbol type)
+        private void checkFamily(int iRowCnt, ElementType type)
         {
+            Debug.WriteLine("BEGIN");
+            var row = 2;
+            var fstype = type;
             string famname = null;
             string famsymbol = null;
 
-            if (!type.IsActive) type.Activate();
+            // if (!type.IsActive) type.Activate();
 
             if (type != null)
             {
-                famname = type.FamilyName;
-                famsymbol = type.Name;
+                famname = type.get_Parameter(BuiltInParameter.ALL_MODEL_FAMILY_NAME).AsString();
+                famsymbol = type.get_Parameter(BuiltInParameter.ALL_MODEL_TYPE_NAME).AsString();
             }
 
+            var run = true;
+            while (run && row < iRowCnt)
+            {
+                var excelfamily = (string) worksheet.Cells[row, 1].Value;
+                var excelfs = (string) worksheet.Cells[row, 2].Value;
+                var gvalue = (double) worksheet.Cells[row, 3].Value;
+
+                if (famname.Equals(excelfamily))
+                    if (famsymbol.Equals(excelfs))
+                    {
+                        var fspara = type.get_Parameter(guid);
+
+                        if (fspara != null && fspara.IsReadOnly != true)
+                        {
+                            fspara.Set(gvalue);
+                            Debug.WriteLine("OK");
+                        }
+                        else
+                        {
+                            Debug.WriteLine("NOT OK");
+                        }
+
+                        run = false;
+                    }
+
+                row++;
+            }
+
+
+/*
             var excelfamily = (string) worksheet.Cells[row, 1].Value;
             var excelfs = (string) worksheet.Cells[row, 2].Value;
             var gvalue = (double) worksheet.Cells[row, 3].Value;
@@ -87,6 +120,7 @@ namespace MyRevitCommands
 
             if (!skip && row + 1 < iRowCnt && (famname != excelfamily || famsymbol != excelfs))
                 checkFamily(row + 1, iRowCnt, type);
+*/
         }
     }
 }

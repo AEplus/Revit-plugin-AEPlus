@@ -41,11 +41,6 @@ namespace MyRevitCommands
             var format = new ExcelTextFormat
             {
                 Culture = CultureInfo.InvariantCulture,
-                // Escape character for values containing the Delimiter
-                // ex: "A,Name",1 --> two cells, not three
-                //
-                //
-                // TextQualifier = '"',
                 Delimiter = ','
 
                 // Other properties
@@ -88,7 +83,6 @@ namespace MyRevitCommands
 
                             foreach (var line in lines)
                             {
-                                // Debug.WriteLine(line);
                                 // Gets first 2 row of each Schedule, name and properties.
                                 // This is done for visibility and making the excel easier to read
                                 // Means, header and first row, count, family, type, ... 
@@ -149,8 +143,6 @@ namespace MyRevitCommands
                             File.Delete(MapPath + "Uitzonderingen.csv");
                             File.Delete(MapPath + "TotaalIngevuld.csv");
                         }
-                    //FileInfo fileIngevuld = new FileInfo(stringpath);
-                    //xlPackage.SaveAs(fileIngevuld);
 
                     // Closes both excel packages 
                     xlPackage.Dispose();
@@ -163,7 +155,6 @@ namespace MyRevitCommands
         }
 
         // Checks values with have been added through the buttons
-        // 
         private bool CheckValues(string name, ArrayList toCheck)
         {
             var current = false;

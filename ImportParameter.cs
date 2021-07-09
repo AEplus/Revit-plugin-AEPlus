@@ -64,7 +64,6 @@ namespace MyRevitCommands
 
         private void checkFamily(int iRowCnt, ElementType type)
         {
-            // Debug.WriteLine("BEGIN");
             var row = 2;
             string famname = null;
             string famsymbol = null;
@@ -89,7 +88,6 @@ namespace MyRevitCommands
                     if (famsymbol.Equals(excelfs))
                     {
                         var fspara = type.get_Parameter(guid);
-
                         if (fspara != null && fspara.IsReadOnly != true)
                             // Writes value
                             fspara.Set(gvalue);

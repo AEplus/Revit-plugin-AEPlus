@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using Autodesk.Revit.DB;
@@ -89,7 +88,7 @@ namespace MyRevitCommands
 
                             foreach (var line in lines)
                             {
-                                Debug.WriteLine(line);
+                                // Debug.WriteLine(line);
                                 // Gets first 2 row of each Schedule, name and properties.
                                 // This is done for visibility and making the excel easier to read
                                 // Means, header and first row, count, family, type, ... 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using Autodesk.Revit.UI;
@@ -18,7 +17,7 @@ namespace MyRevitCommands
         {
             // Gets the assembly directory 
             var path = Assembly.GetExecutingAssembly().Location;
-           
+
             var AEPlusLogoico =
                 new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/AEPLusLogo.ico"));
 

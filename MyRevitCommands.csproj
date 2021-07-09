@@ -126,6 +126,22 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\numbers.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AEPlusLogo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\length.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\export.ico" />
+    <Resource Include="Resources\import.ico" />
+    <Resource Include="Resources\updater.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if exist "$(AppData)\Autodesk\REVIT\Addins\2020" copy "$(ProjectDir)*.addin" "$(AppData)\Autodesk\REVIT\Addins\2020"

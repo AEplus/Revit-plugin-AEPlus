@@ -14,7 +14,6 @@ namespace MyRevitCommands
             var app = commandData.Application;
             var doc = app.ActiveUIDocument.Document;
 
-
             using (var trans = new Transaction(doc))
             {
                 if (trans.Start("Replace null with zero") == TransactionStatus.Started)
@@ -58,14 +57,10 @@ namespace MyRevitCommands
                     {
                         var parameter = e.LookupParameter("AE Opmeting");
                         if (parameter.AsDouble() == 0) parameter.Set(0);
-
-                        // var P = doc.GetElement(e.Id).LookupParameter("AE Opmeting");
-                        // if (P != null || P.AsValueString() != "0" || P.AsValueString() != null) P.Set("0");
                     }
                 }
 
                 trans.Commit();
-
                 return Result.Succeeded;
             }
         }

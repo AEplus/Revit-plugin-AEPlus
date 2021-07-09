@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using Autodesk.Revit.UI;
@@ -18,7 +17,6 @@ namespace MyRevitCommands
         {
             // Gets the assembly directory 
             var path = Assembly.GetExecutingAssembly().Location;
-            var strImageFolder = Path.GetDirectoryName(path) + @"\Resources\";
 
             var AEPlusLogoico =
                 new BitmapImage(new Uri("pack://application:,,,/MyRevitCommands;component/Resources/AEPLusLogo.ico"));
@@ -54,7 +52,6 @@ namespace MyRevitCommands
                 "MyRevitCommands.TotaalToevoegen");
             buttonTot.LargeImage = AEPlusLogoico;
 
-
             var buttonElekAantal = new PushButtonData("elek aantal",
                 "Export met aantallen",
                 path,
@@ -66,7 +63,6 @@ namespace MyRevitCommands
                 path,
                 "MyRevitCommands.ElekLengte");
             buttonElekLengte.LargeImage = lengthico;
-
 
             var buttonHVACAantal = new PushButtonData("HVAC Aantal",
                 "Export met aantallen",
@@ -110,12 +106,6 @@ namespace MyRevitCommands
                 "MyRevitCommands.ImportParameter");
             buttonImport.LargeImage = importico;
 
-            //var buttonTest = new PushButtonData("Test",
-            //    "test",
-            //    path,
-            //    "MyRevitCommands.Test");
-
-
             // Adding items to the panel
             panelTot.AddItem(buttonTot);
 
@@ -132,9 +122,6 @@ namespace MyRevitCommands
 
             panelUpdate.AddItem(buttonExport);
             panelUpdate.AddItem(buttonImport);
-
-            //panelTest.AddItem(buttonTest);
-
 
             return Result.Succeeded;
         }

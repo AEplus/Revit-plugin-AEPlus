@@ -27,7 +27,6 @@ namespace MyRevitCommands
                 var definition = group.Definitions.get_Item("AE GeoIT Link");
                 var externalDefinition = definition as ExternalDefinition;
                 guid = externalDefinition.GUID;
-                // Console.WriteLine(guid);
             }
             catch (Exception)
             {
@@ -50,14 +49,12 @@ namespace MyRevitCommands
 
                 // Excel starts counting at 1 so the first row with data filled in is 2
                 var row = 2;
-                // var cellValue = 0;
 
 
                 // start transaction 
                 using (var t = new Transaction(doc))
                 {
                     t.Start("Symbol activate");
-
 
                     // Loops through all the family types that are present
                     foreach (var e in famTypes)
@@ -99,7 +96,6 @@ namespace MyRevitCommands
                 dlg.InitialDirectory = @"C:\";
                 dlg.Title = "Select directory to save the excel file";
                 dlg.Filter = "Excel spreadsheet files (*.xlsx)|*.xlsx|All files (*)|*";
-
 
                 // save file ok 
                 if (dlg.ShowDialog() == WinForms.DialogResult.OK) fi = dlg.FileName;

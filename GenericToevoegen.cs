@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Globalization;
 using System.IO;
+using System.Diagnostics;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using OfficeOpenXml;
@@ -80,6 +81,8 @@ namespace MyRevitCommands
                             var lines = File.ReadAllLines(StringPathFile);
                             char[] delimitChars = {','};
                             var i = 1;
+                            var strLineCompare = ""; 
+
 
                             foreach (var line in lines)
                             {
@@ -103,7 +106,18 @@ namespace MyRevitCommands
                                     // If the first cell is filled, continue on this .csv line
                                     // Only checks for blanks or not!
                                     normalDocument += line + Environment.NewLine;
+
+                                //if (line.Split(delimitChars)[0] == strLineCompare.Split(delimitChars)[0])
+                                //{
+                                //    line.Split(delimitChars)[1] + strLineCompare.Split(delimitChars)[1]
+
+                                //    countDoc += 
+                                //}
+
+
+                                strLineCompare = line;
                             }
+                            
 
                             // Gets spacing for each schedule.
                             // Increasing visibility for reading the excel.
@@ -133,6 +147,27 @@ namespace MyRevitCommands
                             File.WriteAllText(MapPath + "TotaalIngevuld.csv", TotalDocument);
                             var fileTotaalIngevuld = new FileInfo(MapPath + "TotaalIngevuld.csv");
                             wbAllesIngevuld.Cells["A1"].LoadFromText(fileTotaalIngevuld, format);
+                            wbAllesIngevuld.Cells["A:I"].Sort(0, false);
+
+
+                            // Still testing. q
+                            for (var rowNum = 1; rowNum <= wbAllesIngevuld.Dimension.End.Row; rowNum++)
+                            {
+                                var row = wbAllesIngevuld.Cells[string.Format("{0}:{0}", rowNum)];
+                               // Debug.WriteLine(row.Value.ToString());
+                            }
+
+
+                            //for (int currentRow = wbAllesIngevuld.Dimension.Start.Row; currentRow <= wbAllesIngevuld.Dimension.End.Row; currentRow++)
+                            //{
+                            //    string firstCellValue = wbAllesIngevuld.Cells[currentRow, 1].Value == null || wbAllesIngevuld.Cells[currentRow, 1].Value.ToString() == "" ? null : wbAllesIngevuld.Cells[currentRow, 1].Value.ToString();
+                            //    string secondCellValue = wbAllesIngevuld.Cells[currentRow, 2].Value == null || wbAllesIngevuld.Cells[currentRow, 2].Value.ToString() == "" ? null : wbAllesIngevuld.Cells[currentRow, 2].Value.ToString();
+
+                            //    if (firstCellValue == secondCellValue)
+                            //    {
+                            //    wbAllesIngevuld.Cells[currentRow, 1, currentRow, 2].Merge = true;
+                            //    }
+
 
                             // Write the file to the disk
                             var fileInfoUitzondering = new FileInfo(stringPath);
@@ -142,10 +177,13 @@ namespace MyRevitCommands
                             File.Delete(MapPath + filename + ".csv");
                             File.Delete(MapPath + "Uitzonderingen.csv");
                             File.Delete(MapPath + "TotaalIngevuld.csv");
-                        }
 
-                    // Closes both excel packages 
-                    xlPackage.Dispose();
+
+
+
+                        }
+                        // Closes both excel packages 
+                        xlPackage.Dispose();
                 }
 
                 excelEngine.Dispose();
